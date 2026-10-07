@@ -1,0 +1,2111 @@
+.wrapper{
+	display: -ms-grid;
+	display: grid;
+	margin: 0;
+	position: fixed; /* dont change it, vh does not work on mobiles with bottom footer */
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 24px;
+	height: auto;
+	overflow: hidden;
+
+
+	grid-template-rows: 32px 36px 1fr;
+	grid-template-columns: 38px 1fr 320px;
+	grid-template-areas:
+		"header header header"
+		"submenu submenu submenu"
+		"sidebar_left main sidebar_right";
+}
+.trn{}
+.toggle{
+	cursor: pointer;
+}
+.hidden{
+	display:none;
+}
+.center{
+	text-align: center;
+}
+.pointer{
+	cursor: pointer;
+}
+.clear{
+	clear:both;
+}
+.displayBlock{
+	display: block;
+}
+.bold{
+	font-weight: bold;
+}
+.left{
+	float: left;
+}
+.right{
+	float: right;
+}
+.grey{
+	color:grey;
+}
+.noselect {
+	-webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version */
+}
+.block{
+	position: relative;
+	background-color: rgba(255, 255, 255, 0.2);
+	background-color: var(--block-background-color);
+	border: 1px solid rgba(0, 0, 0, 0.5);
+	border: 1px solid var(--border-color);
+	margin-bottom: 10px;
+	user-select: none;
+	border-radius: 4px;
+}
+.sidebar_right .block{
+	background-color: #68727b;
+	background-color: var(--block-background-color);
+	border-bottom: none;
+	box-shadow: 0 -2px 0 0 var(--header-background-color) inset;
+}
+.block:last-child{
+	margin-bottom: 0;
+}
+.block h2{
+	position: relative;
+	padding: 2px 5px 2px 6px;
+	margin: 0;
+	font-size: 110%;
+	background-color: rgba(255, 255, 255, 0.3);
+	background-color: var(--header-background-color);
+	border-bottom: #555;
+	border-radius: 4px 4px 0 0;
+}
+.block.toggled h2, .block h2.toggled:after{
+	border: none;
+}
+.block h2.toggle:before{
+	/* icon */
+	position:absolute;
+	content:'';
+	width: 0;
+	height: 0;
+	right: 10px;
+	top: 10px;
+	border-style: solid;
+	border-width: 0 4px 5px 4px;
+	border-color: transparent transparent var(--text-color-muted) transparent;
+}
+.block h2.toggled:before{
+	/* icon */
+	border-width: 5px 4px 0 4px;
+	border-color: var(--text-color-muted) transparent transparent transparent;
+}
+.block .content{
+	padding: 7.5px 5px;
+}
+.block_section {
+    margin: .75rem 0;
+}
+.block_section:first-child {
+    margin-top: 0;
+}
+.block_section:last-child {
+    margin-bottom: 0;
+}
+.error{
+	padding:20px;
+	margin:10px;
+	border:1px solid #ff0000;
+	background-color:#ffffff;
+	width:500px;
+	font-weight:bold;
+}
+
+/* color chooser */
+body .sp-replacer{
+	width: 100%;
+	height: 40px;
+}
+body .sp-preview{
+	width: calc(100% - 20px);
+	height: 100%;
+}
+
+/* ========== header ======================================================== */
+
+.logo{
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	height: 32px;
+	padding: 2px 10px;
+	margin: 2px 6px;
+	font-size: 13px;
+	text-decoration: none;
+	font-weight: 700;
+	color: #ffffff;
+	background: rgba(0, 0, 0, 0.25);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 4px;
+	white-space: nowrap;
+}
+.logo .cpg-header-logo {
+	height: 22px;
+	width: auto;
+	object-fit: contain;
+}
+.logo .cpg-brand-name {
+	display: inline-flex;
+	align-items: center;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	font-weight: 800;
+	color: #ffffff;
+	letter-spacing: 0.5px;
+}
+.logo .cpg-tag {
+	font-size: 10px;
+	font-weight: 600;
+	color: #38bdf8;
+	background: rgba(56, 189, 248, 0.2);
+	padding: 1px 5px;
+	border-radius: 3px;
+	margin-left: 5px;
+	border: 1px solid rgba(56, 189, 248, 0.3);
+}
+.logo:after{
+	display: none;
+}
+.cpg_stamp_button {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+	color: #ffffff;
+	border: 1px solid #38bdf8;
+	border-radius: 4px;
+	padding: 4px 12px;
+	font-size: 12px;
+	font-weight: 600;
+	cursor: pointer;
+	margin: 0 8px;
+	height: 28px;
+	white-space: nowrap;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+	transition: all 0.2s ease;
+}
+.cpg_stamp_button:hover {
+	background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+	box-shadow: 0 2px 8px rgba(14, 165, 233, 0.5);
+	transform: translateY(-1px);
+}
+.cpg_stamp_button img {
+	height: 16px;
+	width: auto;
+}
+.lang_slice_switch {
+	display: inline-flex;
+	align-items: center;
+	background: #1c1c1c;
+	border: 1px solid #3c3c3c;
+	border-radius: 14px;
+	padding: 2px;
+	margin: 0 8px;
+	height: 26px;
+	user-select: none;
+	box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+}
+.lang_slice_btn {
+	background: transparent;
+	border: none;
+	color: #8c8c8c;
+	font-size: 11px;
+	font-weight: 700;
+	padding: 3px 9px;
+	border-radius: 12px;
+	cursor: pointer;
+	line-height: 1.2;
+	transition: all 0.2s ease;
+	outline: none;
+}
+.lang_slice_btn:hover {
+	color: #ffffff;
+}
+.lang_slice_btn.active {
+	background: #0078d4;
+	color: #ffffff;
+	box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+.about-logo{
+	margin-left:22%;
+}
+.about-name{
+	font-size:15px;
+	font-weight:bold;
+}
+.undo_button {
+	display: none;
+	width: 50px;
+	height: 50px;
+	top: 0;
+	border: 0;
+	outline: none;
+	cursor: pointer;
+	filter: var(--mobile-menu-toggle-filter);
+	background: url(images/icons/undo.svg) no-repeat center center;
+	background-size: auto 25px;
+	margin-left: 10px;
+}
+.undo_button:hover {
+	background-color: transparent;
+}
+@media screen and (max-width: 700px){
+	.undo_button {
+		display: block;
+	}
+}
+
+/* ========== sub-header ==================================================== */
+
+.submenu{
+	-ms-grid-row: 1;
+	-ms-grid-column: 1;
+	-ms-grid-column-span: 3;
+	grid-area: submenu;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	background-color: rgba(255, 255, 255, 0.2);
+	background-color: var(--section-background-color);
+	overflow: hidden;
+	margin-bottom: 5px;
+}
+.attributes{
+	display: flex;
+	flex-wrap: nowrap;
+	background-color: var(--area-background-color);
+	width: calc(100% - 125px);
+	margin-top: 5px;
+	margin-bottom: 5px !important;
+	padding: 3px 10px 3px 10px;
+	border: 0;
+	overflow-x: auto;
+	overflow-y: hidden;
+	white-space: nowrap;
+	min-height: 30px;
+}
+.attributes .item{
+	display: inline-flex;
+	align-items: center;
+	margin-right: 20px;
+}
+.attributes .item > label {
+	margin: 0 .5rem 0 0;
+}
+.attributes input[type="number"]{
+	width: 60px;
+	margin-right: 5px;
+}
+.attributes input[type="color"] {
+	cursor: pointer;
+	padding: 0;
+	border: .2rem solid var(--input-background-color);
+	width: 3rem;
+}
+.attributes .item > button:not(.ui_icon_button){
+	display: inline-block;
+	padding: 3px 10px;
+}
+
+/* ========== left sidebar ================================================== */
+
+.sidebar_left{
+	-ms-grid-row: 2;
+	-ms-grid-column: 1;
+	grid-area: sidebar_left;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	background-color: var(--section-background-color);
+	padding: 0 5px 5px 0;
+	margin-right: 5px;
+	overflow: hidden;
+	align-self: start;
+	width: 40px;
+	overflow-y: auto;
+	max-height: 100%;
+}
+.sidebar_left .item{
+	position: relative;
+	display:block;
+	background-color: var(--area-background-color);
+	height: 25px;
+	width: 30px;
+	margin: 5px 0 0 5px;
+	overflow: hidden;
+	cursor: pointer;
+}
+.sidebar_left .item:after{
+	position: absolute;
+	content: '';
+	left:0;
+	top:0;
+	bottom:0;
+	right:0;
+	filter: var(--menu-icons-filter);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 18px 18px;
+}
+.sidebar_left .item:hover{
+	background-color: #424242;
+	border-radius: 4px;
+}
+.sidebar_left .item.active{
+	background-color: #3259a5 !important;
+	border-radius: 4px;
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
+}
+.sidebar_left .item.active:after{
+	filter: brightness(2.5) contrast(1.5);
+}
+
+.psd_toolbar_header {
+	width: 100%;
+	height: 18px;
+	line-height: 16px;
+	text-align: center;
+	color: #808080;
+	font-size: 13px;
+	cursor: pointer;
+	user-select: none;
+	border-bottom: 1px solid #222222;
+	margin-bottom: 4px;
+}
+.psd_toolbar_header:hover {
+	color: #ffffff;
+}
+
+/* PhotoCraft & Photoshop CC 2020 SVG Icons */
+.sidebar_left .select:after{ background-image: url('images/icons/photocraft/move.svg'); }
+.sidebar_left .selection:after{ background-image: url('images/icons/photocraft/square-dashed.svg'); }
+.sidebar_left .brush:after{ background-image: url('images/icons/photocraft/brush.svg'); }
+.sidebar_left .pencil:after{ background-image: url('images/icons/photocraft/pencil.svg'); }
+.sidebar_left .pick_color:after{ background-image: url('images/icons/photocraft/pipette.svg'); }
+.sidebar_left .erase:after{ background-image: url('images/icons/photocraft/eraser.svg'); }
+.sidebar_left .magic_erase:after{ background-image: url('images/icons/photocraft/wand.svg'); }
+.sidebar_left .fill:after{ background-image: url('images/icons/photocraft/paint-bucket.svg'); }
+.sidebar_left .media:after{ background-image: url('images/icons/photocraft/swatch-book.svg'); }
+.sidebar_left .shape:after{ background-image: url('images/icons/photocraft/square.svg'); }
+.sidebar_left .text:after{ background-image: url('images/icons/photocraft/type.svg'); background-size: 17px auto; }
+.sidebar_left .gradient:after{ background-image: url('images/icons/photocraft/blend.svg'); }
+.sidebar_left .clone:after{ background-image: url('images/icons/photocraft/stamp.svg'); }
+.sidebar_left .crop:after{ background-image: url('images/icons/photocraft/crop.svg'); }
+.sidebar_left .blur:after{ background-image: url('images/icons/photocraft/sparkles.svg'); }
+.sidebar_left .sharpen:after{ background-image: url('images/icons/photocraft/triangle.svg'); }
+.sidebar_left .desaturate:after{ background-image: url('images/icons/photocraft/contrast.svg'); }
+.sidebar_left .bulge_pinch:after{ background-image: url('images/icons/photocraft/scaling.svg'); }
+.sidebar_left .animation:after{ background-image: url('images/icons/photocraft/clock.svg'); }
+
+@media screen and (max-width:550px){
+	#sidebar_left{
+		left: -110px;
+	}
+}
+
+/* Photoshop CC Color Switcher & Status Bar */
+.psd_color_container {
+	margin-top: 8px;
+	padding-top: 6px;
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 36px;
+}
+.psd_color_box {
+	position: relative;
+	width: 28px;
+	height: 28px;
+	cursor: pointer;
+}
+.psd_chip_fg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 17px;
+	height: 17px;
+	background: #000000;
+	border: 1px solid #777;
+	border-radius: 2px;
+	z-index: 2;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+.psd_chip_bg {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 17px;
+	height: 17px;
+	background: #ffffff;
+	border: 1px solid #777;
+	border-radius: 2px;
+	z-index: 1;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+.psd_color_actions {
+	display: flex;
+	justify-content: space-between;
+	width: 26px;
+	margin-top: 4px;
+}
+.psd_color_btn {
+	background: none;
+	border: none;
+	color: #999;
+	font-size: 11px;
+	cursor: pointer;
+	padding: 0;
+	line-height: 1;
+}
+.psd_color_btn:hover {
+	color: #ffffff;
+}
+
+.psd_status_bar {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 22px;
+	background-color: #1a1a1a;
+	border-top: 1px solid #282828;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 12px;
+	font-size: 11px;
+	color: #8c8c8c;
+	z-index: 100;
+	user-select: none;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+.psd_status_bar .status_brand {
+	color: #38bdf8;
+	font-weight: 600;
+}
+.psd_status_bar .psd_status_sep {
+	margin: 0 6px;
+	color: #444;
+}
+.psd_status_bar .psd_status_center {
+	display: flex;
+	gap: 6px;
+	color: #777;
+}
+@media screen and (max-width: 850px) {
+	.psd_status_center {
+		display: none;
+	}
+}
+
+/* ========== right sidebar ================================================= */
+
+.sidebar_right{
+	-ms-grid-row: 2;
+	-ms-grid-column: 3;
+	grid-area: sidebar_right;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	transition: 0.2s;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	margin: 0 5px;
+	width: 200px;
+}
+.sidebar_right.active{
+	right: 0 !important;
+}
+.sidebar_right .block.layers{
+	flex: 1;
+}
+.sidebar_right .block.layers .content{
+	padding-bottom: 25px;
+}
+
+/* preview */
+.canvas_preview_wrapper{
+	position:relative;
+	height:100px;
+	margin: 5px 5px 10px 5px;
+}
+.canvas_preview_details{
+	padding: 0 5px;
+}
+.canvas_preview_details button{
+	margin: 0;
+}
+.preview canvas{
+	cursor: pointer;
+}
+.details input{
+	padding: 5px 10px;
+}
+
+/* color */
+.color_area{
+	border: 1px solid #444;
+	width: calc(100% - 10px);
+	height: 40px;
+	cursor: pointer;
+	margin: 5px;
+}
+
+/* layers */
+.layers_list{
+	margin-top: 10px;
+}
+.layers_arrow{
+	display:inline-block;
+	float:right;
+	margin-left:5px;
+	padding:1px 8px;
+	border:1px solid #444;
+	border-color: var(--border-color);
+	text-decoration:none;
+	color:var(--text-color);
+	font-size:12px;
+}
+.layer_add{
+	display:inline-block;
+	padding:1px 8px;
+	margin-right: 10px;
+	background-color: #419147;
+	background-color: var(--background-color-active);
+	border:1px solid #444;
+	border-color: var(--border-color);
+	color: var(--text-color-active);
+	cursor:pointer;
+	text-decoration:none;
+}
+.layers_list .item{
+	margin-bottom:2px;
+}
+.layers_list .layer_name{
+	display:block;
+	padding:1px 5px 3px 5px;
+	height:19px;
+	width: calc(100% - 44px);
+	text-align: left;
+	overflow:hidden;
+	background-color:#989898;
+	background-color: var(--area-background-color);
+	border:1px solid #393939;
+	border-color: var(--border-color);
+	border-radius:3px;
+	cursor:pointer;
+	overflow:hidden;
+	font-size: 12px;
+	color:var(--text-color);
+	white-space: nowrap;
+}
+.layers_list .item.shorter .layer_name{
+	width: calc(100% - 63px);
+}
+.layers_list .item.active .layer_name{
+	background-color: var(--background-color-active);
+	color: var(--text-color-active);
+}
+.layers_list .arrow_down{
+	position: relative;
+	float:left;
+	margin-right: 5px;
+	width:10px;
+	height:19px;
+	opacity: 0.4;
+}
+.layers_list .arrow_down:after{
+	position: absolute;
+	content: '';
+	left:0;
+	top:0;
+	bottom:0;
+	right:0;
+	filter: var(--menu-icons-filter);
+	background: url('images/icons/arrow-down.svg') no-repeat center center;
+	background-size: 12px auto;
+}
+.layers_list .visibility{
+	position: relative;
+	float:left;
+	cursor:pointer;
+	padding:0px 3px 0px 3px;
+	margin-right: 5px;
+	width:20px;
+	height:19px;
+	opacity:0.1;
+	border: none;
+	background: transparent;
+	box-shadow: none;
+}
+.layers_list .visibility:after{
+	position: absolute;
+	content: '';
+	left:0;
+	top:0;
+	bottom:0;
+	right:0;
+	filter: var(--menu-icons-filter);
+	background: url('images/icons/view.svg') no-repeat center center;
+	background-size: 18px auto;
+}
+.layers_list .visible{ opacity:0.4; }
+.layers_list .delete{
+	float:right;
+	cursor:pointer;
+	padding:0px 3px 0px 3px;
+	width:12px;
+	height:19px;
+	margin-left: 5px;
+	background: transparent url(images/icons/delete.svg) no-repeat center center;
+	background-size: 10px 10px;
+	border: none;
+	box-shadow: none;
+}
+/* filters */
+.layers_list .filters{
+	margin-bottom: 5px;
+}
+.layers_list .filter{
+	margin-bottom: 2px;
+	margin-left: 30px;
+	opacity: 0.7;
+}
+.layers_list .filter .layer_name{
+	position: relative;
+}
+.layers_list .filter .layer_name:after{
+	position:absolute;
+	content:"fx";
+	right: -4px;
+	top:1px;
+	bottom:0;
+	width: 20px;
+}
+.sidebar_right .label{
+	display: inline-block;
+}
+.info .toggle.toggled{
+	margin-bottom: -3px;
+}
+.block.details .row{
+	clear:both;
+	margin-bottom: 4px;
+	min-height: 23px;
+}
+.block.details input[type="number"]{
+	width: 70px;
+	padding: 3px 5px;
+	float: right;
+}
+.block.details .ui_color_input{
+	width: 70px;
+	float: right;
+}
+.block.details .ui_color_input input{
+	width: 100%;
+	height: 23px;
+}
+.block.details button.ui_toggle_button{
+	width: 90px;
+	float: right;
+}
+.block.details select{
+	width: calc(100% - 70px);
+	height: 23px;
+	float: right;
+}
+.block.details button{
+	width: calc(100% - 70px);
+	height: 23px;
+	border: 1px solid #444;
+}
+.block.details button.reset{
+	position: relative;
+	width: 25px;
+	float: right;
+	margin-right: 3px;
+	overflow: hidden;
+	opacity: 0.5;
+	color: transparent;
+}
+.block.details button.reset:after{
+	position: absolute;
+	content: '';
+	left:0;
+	top:0;
+	bottom:0;
+	right:0;
+	background: url(images/icons/refresh.svg) no-repeat center center;
+	background-size: auto 14px;
+	filter: var(--menu-icons-filter);
+}
+.block.details button.active{
+	background-color: var(--background-color-active);
+	color: var(--text-color-active);
+}
+.details-content{
+	height: 206px;
+	overflow-y: auto;
+}
+
+@media screen and (max-width:700px){
+	body{
+		padding-top:50px;
+	}
+	.wrapper{
+		top: 50px;
+	grid-template-rows: 32px 36px 1fr;
+	grid-template-columns: 38px 1fr 320px;
+	grid-template-areas:
+		"header header header"
+		"submenu submenu submenu"
+		"sidebar_left main sidebar_right";
+}
+	.sidebar_left{
+		position: absolute;
+		left: -90px;
+		background: var(--background);
+	}
+	.sidebar_left.active{
+		box-shadow: -5px 0px 10px 0px rgba(0,0,0,0.75);
+		left: 0;
+		z-index: 3;
+	}
+	.sidebar_right{
+		position: absolute;
+		height: 100%;
+		right: -210px;
+		background: var(--background);
+	}
+	.sidebar_right.active{
+		box-shadow: -5px 0px 10px 0px rgba(0,0,0,0.75);
+		right: 0;
+		margin-right: 0;
+	}
+}
+
+/* ========== content ======================================================= */
+
+.ruler_left{
+	display: none;
+	position: absolute;
+	left:0;
+	top: 20px;
+	background-color: #ccc;
+}
+.ruler_top{
+	display: none;
+	position: absolute;
+	left: 20px;
+	top:0;
+	background-color: #ccc;
+}
+.middle_area{
+	position: relative;
+	-ms-grid-row: 2;
+	-ms-grid-column: 2;
+	grid-area: main;
+}
+.main_wrapper{
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.middle_area.has-ruler .main_wrapper{
+	top: 20px;
+	left: 20px;
+}
+.canvas_wrapper{
+	position:relative;
+}
+.canvas_wrapper canvas{
+	position: absolute;
+	box-sizing: content-box;
+	font-kerning: normal !important;
+}
+.loaded .canvas_wrapper canvas{
+	border: 1px solid var(--border-color);
+}
+#mouse{
+	position:absolute;
+	pointer-events:none;
+	width:10px;
+	height:10px;
+	z-index:10;
+}
+#mouse.rect{
+	border:1px solid rgba(0,0,0,0.5);
+}
+#mouse.circle{
+	border:1px solid rgba(0,0,0,0.5);
+	border-radius:50%;
+}
+.transparent-grid{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	pointer-events: none;
+	/*background: url(images/icons/grid.png) repeat top left;*/
+	background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAQElEQVQ4T2N89+7dfwYigKCgIBGqGBgYRw3EGU6jYYgzaIZAsvn//z9ROeX9+/fE5ZRRA3GG02gY4s4pgz7ZAAAnSWvHPkHXaAAAAABJRU5ErkJggg==') repeat top left;
+	z-index:1;
+	image-rendering: pixelated; /* disable antialiasing */
+}
+.transparent-grid.white{
+	background:white;
+}
+.transparent-grid.green{
+	background: #5be471;
+}
+.transparent-grid.grey{
+	background: #dfdfdf;
+}
+canvas{
+	position:relative;
+	z-index:2;
+}
+#canvas_back{
+	position: absolute;
+	background-color:#ffffff;
+	outline: none;
+}
+#canvas_grid{
+	pointer-events:none;
+}
+.group{
+	border:1px solid #999999;
+	margin: 5px 0px 5px 0px;
+	padding:5px 8px;
+}
+.flex-container{
+	display: flex;
+	flex-wrap: wrap;
+}
+.flex-container .item{
+	flex: auto;
+	margin: 2px 0;
+	width: 150px;
+}
+.flex-container .item:empty{
+	height: 0;
+	border: none;
+}
+.alertify-notifier{
+	color: black;
+}
+.effectsPreview{
+	cursor: pointer;
+	background-color: #ddd;
+}
+
+@media screen and (max-width:550px){
+	.canvas_wrapper{
+		margin-left: 0px;
+	}
+}
+@media screen and (max-height: 690px){
+	.sidebar_left{
+		width: 75px;
+	}
+}
+@media screen and (max-height:450px){
+	.sidebar_left{
+		width: 88px;
+	}
+}
+
+/* ========== dialogs ======================================================= */
+
+#dialog_color_picker_group {
+	width: 60%;
+}
+#dialog_color_channel_group {
+	width: 40%;
+	margin-left: 1rem;
+}
+
+@media screen and (max-width: 450px) {
+	#dialog_color_picker .ui_flex_group {
+		flex-wrap: wrap;
+	}
+	#dialog_color_picker_group {
+		width: 100%;
+	}
+	#dialog_color_channel_group {
+		width: 100%;
+		margin-left: 0;
+		margin-top: 1rem;
+	}
+}
+
+
+/* ==========================================================================
+   PhotoCraft (storytold/photocraft) & Photoshop CC 2020 Complete Theme & UI
+   ========================================================================== */
+
+/* 1. Header (Menu + Document Title + Right Controls) */
+.psd_header {
+	grid-area: header;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background: #323232;
+	border-bottom: 1px solid #1e1e1e;
+	height: 32px;
+	padding: 0 8px;
+	user-select: none;
+	position: relative;
+	z-index: 50;
+}
+.psd_header .main_menu {
+	flex: 0 0 auto;
+	margin: 0;
+	padding: 0;
+	background: transparent;
+	border: none;
+}
+.psd_header_doc_title {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	font-size: 12px;
+	font-weight: 500;
+	color: #b5b5b5;
+	pointer-events: none;
+	letter-spacing: 0.2px;
+}
+.psd_header_right {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+.psd_hdr_btn {
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 3px;
+	color: #c0c0c0;
+	width: 26px;
+	height: 24px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	font-size: 13px;
+	transition: all 0.15s ease;
+}
+.psd_hdr_btn:hover {
+	background: #424242;
+	color: #ffffff;
+	border-color: #555555;
+}
+.psd_workspace_select {
+	background: #242424;
+	color: #cccccc;
+	border: 1px solid #484848;
+	border-radius: 3px;
+	font-size: 11px;
+	font-weight: 500;
+	padding: 2px 6px;
+	height: 24px;
+	outline: none;
+	cursor: pointer;
+}
+.cpg-brand-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	background: rgba(0, 0, 0, 0.3);
+	border: 1px solid rgba(56, 189, 248, 0.4);
+	border-radius: 12px;
+	padding: 2px 8px;
+	height: 22px;
+	text-decoration: none;
+	margin-left: 4px;
+}
+.cpg-brand-pill .cpg-header-logo {
+	height: 14px;
+	width: auto;
+}
+.cpg-brand-pill .cpg-brand-name {
+	font-size: 11px;
+	font-weight: 700;
+	color: #ffffff;
+}
+
+/* 2. Options Bar (Submenu) */
+.psd_options_bar {
+	grid-area: submenu;
+	display: flex;
+	align-items: center;
+	background: #323232;
+	border-bottom: 1px solid #1e1e1e;
+	height: 36px;
+	padding: 0 8px;
+	user-select: none;
+	gap: 6px;
+	overflow-x: auto;
+}
+.psd_tool_active_icon {
+	width: 26px;
+	height: 26px;
+	background: #242424;
+	border: 1px solid #444444;
+	border-radius: 3px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+.psd_tool_active_icon .psd_opt_icon {
+	width: 18px;
+	height: 18px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	filter: brightness(2);
+}
+.psd_tool_active_icon .select { background-image: url('images/icons/photocraft/move.svg'); }
+.psd_tool_active_icon .selection { background-image: url('images/icons/photocraft/square-dashed.svg'); }
+.psd_tool_active_icon .brush { background-image: url('images/icons/photocraft/brush.svg'); }
+.psd_tool_active_icon .pencil { background-image: url('images/icons/photocraft/pencil.svg'); }
+.psd_tool_active_icon .erase { background-image: url('images/icons/photocraft/eraser.svg'); }
+.psd_tool_active_icon .crop { background-image: url('images/icons/photocraft/crop.svg'); }
+.psd_tool_active_icon .text { background-image: url('images/icons/photocraft/type.svg'); }
+.psd_tool_active_icon .shape { background-image: url('images/icons/photocraft/square.svg'); }
+.psd_tool_active_icon .fill { background-image: url('images/icons/photocraft/paint-bucket.svg'); }
+.psd_tool_active_icon .pick_color { background-image: url('images/icons/photocraft/pipette.svg'); }
+
+.psd_opt_group {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 11px;
+	color: #cccccc;
+	white-space: nowrap;
+}
+.psd_checkbox_label {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	cursor: pointer;
+	font-size: 11px;
+	color: #cccccc;
+	user-select: none;
+}
+.psd_checkbox_label input[type="checkbox"] {
+	margin: 0;
+	accent-color: #0078d4;
+	cursor: pointer;
+}
+.psd_select_sm {
+	background: #242424;
+	color: #cccccc;
+	border: 1px solid #444444;
+	border-radius: 3px;
+	font-size: 11px;
+	padding: 1px 4px;
+	height: 22px;
+	outline: none;
+	cursor: pointer;
+}
+.psd_opt_separator {
+	width: 1px;
+	height: 18px;
+	background: #202020;
+	margin: 0 4px;
+	flex-shrink: 0;
+}
+.psd_align_group {
+	display: inline-flex;
+	align-items: center;
+	gap: 2px;
+}
+.psd_align_btn {
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 3px;
+	color: #a0a0a0;
+	padding: 1px 4px;
+	font-size: 11px;
+	cursor: pointer;
+	height: 22px;
+	line-height: 18px;
+}
+.psd_align_btn:hover {
+	background: #424242;
+	color: #ffffff;
+}
+.psd_options_right {
+	margin-left: auto;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	flex-shrink: 0;
+}
+.psd_options_bar #action_attributes {
+	display: none !important;
+}
+
+/* 3. Document Tab Bar Above Canvas */
+.psd_doc_tabs {
+	height: 28px;
+	background: #282828;
+	border-bottom: 1px solid #1e1e1e;
+	display: flex;
+	align-items: flex-end;
+	padding-left: 8px;
+	user-select: none;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 10;
+}
+.psd_doc_tab {
+	height: 26px;
+	background: #323232;
+	color: #dedede;
+	border-radius: 4px 4px 0 0;
+	padding: 0 10px;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 12px;
+	border: 1px solid #1e1e1e;
+	border-bottom: none;
+	box-shadow: 0 -1px 3px rgba(0,0,0,0.2);
+}
+.psd_tab_close {
+	font-size: 10px;
+	color: #888888;
+	cursor: pointer;
+	padding: 2px;
+	border-radius: 2px;
+}
+.psd_tab_close:hover {
+	color: #ffffff;
+	background: rgba(255,255,255,0.1);
+}
+.psd_tab_title {
+	font-weight: 500;
+	white-space: nowrap;
+}
+.middle_area {
+	background-color: #282828 !important;
+}
+.middle_area .main_wrapper {
+	top: 28px !important;
+}
+.middle_area.has-ruler .main_wrapper {
+	top: 48px !important;
+	left: 20px !important;
+}
+.middle_area.has-ruler .ruler_top {
+	top: 28px !important;
+}
+.loaded .canvas_wrapper canvas {
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.75) !important;
+	border: 1px solid #1a1a1a !important;
+}
+
+/* 4. Right Side Dock Panels (PhotoCraft 2-Tier Stack) */
+.sidebar_right {
+	display: flex !important;
+	flex-direction: row !important;
+	width: 320px !important;
+	background: #282828 !important;
+	border-left: 1px solid #1e1e1e !important;
+	overflow: hidden !important;
+}
+.psd_dock_rail {
+	width: 34px;
+	background: #2a2a2a;
+	border-right: 1px solid #1e1e1e;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 0;
+	flex-shrink: 0;
+}
+.psd_rail_btn {
+	width: 26px;
+	height: 26px;
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	padding: 0;
+	transition: all 0.15s ease;
+}
+.psd_rail_btn img {
+	width: 16px;
+	height: 16px;
+	filter: brightness(1.2);
+}
+.psd_rail_btn:hover {
+	background: #383838;
+}
+.psd_rail_btn.active {
+	background: #3259a5;
+	border-color: #4a75c7;
+}
+.psd_dock_panels {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	padding: 6px;
+	overflow-y: auto;
+	height: 100%;
+}
+.psd_panel_card {
+	background: #323232;
+	border: 1px solid #1e1e1e;
+	border-radius: 4px;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+#card_top {
+	flex: 0 0 auto;
+	min-height: 220px;
+}
+#card_bottom {
+	flex: 1;
+	min-height: 280px;
+}
+.psd_card_header {
+	height: 28px;
+	background: #292929;
+	border-bottom: 1px solid #1e1e1e;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 8px;
+	user-select: none;
+}
+.psd_card_tabs {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+.psd_card_tab {
+	background: transparent;
+	border: none;
+	color: #9c9c9c;
+	font-size: 11px;
+	font-weight: 600;
+	padding: 5px 8px;
+	cursor: pointer;
+	border-radius: 3px 3px 0 0;
+	position: relative;
+}
+.psd_card_tab:hover {
+	color: #e0e0e0;
+}
+.psd_card_tab.active {
+	color: #ffffff;
+}
+.psd_card_tab.active:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -1px;
+	height: 2px;
+	background: #378ef0;
+}
+.psd_card_menu_btn {
+	color: #888888;
+	font-size: 12px;
+	cursor: pointer;
+	padding: 2px 4px;
+}
+.psd_card_menu_btn:hover {
+	color: #ffffff;
+}
+.psd_card_body {
+	padding: 8px;
+	flex: 1;
+	overflow-y: auto;
+}
+.psd_tab_page {
+	display: none;
+}
+.psd_tab_page.active {
+	display: block;
+}
+
+/* 5. Curves Adjustment Editor */
+.psd_curves_editor {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+.psd_curves_header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.psd_curves_title {
+	font-size: 12px;
+	font-weight: 700;
+	color: #ffffff;
+}
+.psd_channel_row {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 11px;
+	color: #cccccc;
+}
+.psd_curves_canvas_container {
+	background: #242424;
+	border: 1px solid #444444;
+	border-radius: 3px;
+	padding: 2px;
+	display: flex;
+	justify-content: center;
+}
+#psd_curves_canvas {
+	cursor: crosshair;
+	display: block;
+	width: 100%;
+	height: auto;
+}
+.psd_curves_io_row {
+	display: flex;
+	gap: 12px;
+}
+.psd_io_item {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 11px;
+	color: #cccccc;
+}
+.psd_io_item input {
+	width: 50px;
+	background: #242424;
+	border: 1px solid #444444;
+	color: #ffffff;
+	border-radius: 2px;
+	padding: 1px 4px;
+	font-size: 11px;
+	text-align: right;
+}
+.psd_curves_options {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	margin-top: 2px;
+}
+.psd_btn_secondary {
+	background: #3a3a3a;
+	border: 1px solid #505050;
+	color: #dedede;
+	border-radius: 3px;
+	font-size: 11px;
+	font-weight: 500;
+	padding: 4px 8px;
+	cursor: pointer;
+	margin-top: 4px;
+	text-align: center;
+}
+.psd_btn_secondary:hover {
+	background: #4a4a4a;
+	color: #ffffff;
+}
+
+/* 6. Layers Panel Stack (PhotoCraft Exact Reproduction) */
+.psd_layer_filter_row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	border-bottom: 1px solid #282828;
+	padding-bottom: 6px;
+	margin-bottom: 6px;
+}
+.psd_filter_label {
+	font-size: 11px;
+	color: #888888;
+}
+.psd_kind_icons {
+	display: flex;
+	gap: 4px;
+}
+.psd_kind_btn {
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 2px;
+	font-size: 12px;
+	padding: 1px 5px;
+	cursor: pointer;
+	color: #999999;
+}
+.psd_kind_btn:hover {
+	background: #404040;
+	color: #ffffff;
+}
+.psd_kind_btn.active {
+	background: #242424;
+	border-color: #555555;
+	color: #ffffff;
+}
+.psd_layer_blend_row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	margin-bottom: 4px;
+}
+.psd_select_blend {
+	background: #242424;
+	color: #cccccc;
+	border: 1px solid #444444;
+	border-radius: 3px;
+	font-size: 11px;
+	padding: 2px 4px;
+	height: 24px;
+	flex: 1;
+	outline: none;
+	cursor: pointer;
+}
+.psd_opacity_field, .psd_fill_field {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 11px;
+	color: #aaaaaa;
+}
+.psd_opacity_field input, .psd_fill_field input {
+	width: 44px;
+	background: #242424;
+	border: 1px solid #444444;
+	color: #ffffff;
+	border-radius: 2px;
+	padding: 1px 3px;
+	font-size: 11px;
+	text-align: right;
+}
+.psd_layer_lock_row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: 1px solid #282828;
+	padding-bottom: 6px;
+	margin-bottom: 6px;
+}
+.psd_lock_group {
+	display: flex;
+	align-items: center;
+	gap: 3px;
+}
+.psd_lock_label {
+	font-size: 11px;
+	color: #888888;
+	margin-right: 2px;
+}
+.psd_lock_icon {
+	background: transparent;
+	border: none;
+	color: #888888;
+	font-size: 11px;
+	cursor: pointer;
+	padding: 1px 3px;
+}
+.psd_lock_icon:hover {
+	color: #ffffff;
+}
+
+/* Layers List Item Styling */
+#layers_base {
+	margin: 0 !important;
+	padding: 0 !important;
+	max-height: 380px;
+	overflow-y: auto;
+}
+#layers .item {
+	display: flex !important;
+	align-items: center !important;
+	height: 32px !important;
+	background: #2b2b2b !important;
+	border-bottom: 1px solid #202020 !important;
+	padding: 0 6px !important;
+	border-radius: 2px !important;
+	margin-bottom: 1px !important;
+	cursor: pointer !important;
+	width: 100% !important;
+	box-sizing: border-box !important;
+	transition: background 0.1s ease;
+}
+#layers .item:hover {
+	background: #383838 !important;
+}
+#layers .item.active {
+	background: #354256 !important;
+	border-color: #4a5c78 !important;
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.3) !important;
+}
+#layers .item .visibility {
+	background: transparent !important;
+	border: none !important;
+	color: #888888 !important;
+	font-size: 13px !important;
+	cursor: pointer !important;
+	width: 20px !important;
+	height: 20px !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	padding: 0 !important;
+	margin-right: 4px !important;
+}
+#layers .item .visibility:hover {
+	color: #ffffff !important;
+}
+.psd_layer_thumb {
+	width: 26px;
+	height: 22px;
+	background: #1c1c1c;
+	border: 1px solid #3c3c3c;
+	border-radius: 2px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 11px;
+	font-weight: 700;
+	color: #cccccc;
+	margin-right: 8px;
+	flex-shrink: 0;
+}
+.psd_layer_thumb.type { color: #38bdf8; }
+.psd_layer_thumb.adjustment { color: #a855f7; }
+.psd_layer_thumb.shape { color: #f59e0b; }
+
+.psd_layer_meta {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+.psd_layer_title {
+	font-size: 11px;
+	font-weight: 600;
+	color: #ffffff;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.psd_layer_subtitle {
+	font-size: 9px;
+	color: #888888;
+	line-height: 1.1;
+}
+#layers .item .delete {
+	background: transparent !important;
+	border: none !important;
+	color: #666666 !important;
+	font-size: 11px !important;
+	cursor: pointer !important;
+	padding: 2px 4px !important;
+	margin-left: auto !important;
+}
+#layers .item .delete:hover {
+	color: #ef4444 !important;
+}
+
+/* Layer Panel Footer Action Bar */
+.psd_layers_footer {
+	height: 28px;
+	background: #292929;
+	border-top: 1px solid #1e1e1e;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	padding: 0 4px;
+	margin-top: 4px;
+}
+.psd_footer_btn {
+	background: transparent;
+	border: none;
+	color: #888888;
+	font-size: 13px;
+	cursor: pointer;
+	padding: 3px 6px;
+	border-radius: 2px;
+	line-height: 1;
+}
+.psd_footer_btn:hover {
+	background: #404040;
+	color: #ffffff;
+}
+
+/* 7. Status Bar matching PhotoCraft */
+.psd_status_bar {
+	grid-area: footer;
+	height: 24px !important;
+	background: #242424 !important;
+	border-top: 1px solid #1c1c1c !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: space-between !important;
+	padding: 0 10px !important;
+	font-size: 11px !important;
+	color: #888888 !important;
+	user-select: none;
+	z-index: 50;
+}
+.psd_status_left {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+.psd_zoom_box input {
+	width: 52px;
+	background: #1c1c1c;
+	border: 1px solid #383838;
+	color: #cccccc;
+	font-size: 10px;
+	text-align: center;
+	padding: 1px 2px;
+	border-radius: 2px;
+}
+.psd_status_sep {
+	color: #444444;
+}
+.psd_status_center {
+	color: #aaaaaa;
+	font-size: 11px;
+}
+.psd_status_right .status_brand {
+	color: #38bdf8;
+	font-weight: 600;
+	font-size: 11px;
+}
+
+/* ==========================================================================
+   Photoshop CC 2020 & PhotoCraft Complete Authentic Light Theme (Studio Light)
+   ========================================================================== */
+
+body.theme-light {
+	background-color: #b0b0b0 !important;
+	color: #111111 !important;
+}
+
+/* 1. Light Header */
+body.theme-light .psd_header {
+	background: #d6d6d6 !important;
+	border-bottom: 1px solid #b8b8b8 !important;
+}
+body.theme-light .psd_header_doc_title {
+	color: #444444 !important;
+}
+body.theme-light .psd_hdr_btn {
+	color: #333333 !important;
+}
+body.theme-light .psd_hdr_btn:hover {
+	background: #c0c0c0 !important;
+	color: #000000 !important;
+	border-color: #a0a0a0 !important;
+}
+body.theme-light .psd_workspace_select {
+	background: #ffffff !important;
+	color: #222222 !important;
+	border-color: #b0b0b0 !important;
+}
+body.theme-light .lang_slice_switch {
+	background: #e2e2e2 !important;
+	border-color: #b8b8b8 !important;
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.1) !important;
+}
+body.theme-light .lang_slice_btn {
+	color: #555555 !important;
+}
+body.theme-light .lang_slice_btn:hover {
+	color: #000000 !important;
+}
+body.theme-light .lang_slice_btn.active {
+	background: #0078d4 !important;
+	color: #ffffff !important;
+}
+body.theme-light .cpg-brand-pill {
+	background: rgba(0, 120, 212, 0.1) !important;
+	border-color: rgba(0, 120, 212, 0.35) !important;
+}
+body.theme-light .cpg-brand-pill .cpg-brand-name {
+	color: #005a9e !important;
+}
+body.theme-light .cpg-brand-pill .cpg-tag {
+	background: rgba(0, 120, 212, 0.15) !important;
+	color: #005a9e !important;
+	border-color: rgba(0, 120, 212, 0.3) !important;
+}
+body.theme-light .cpg-brand-pill .cpg-header-logo {
+	filter: brightness(0.2) !important;
+}
+
+/* 2. Light Main Menu */
+body.theme-light .main_menu > ul.menu_bar > li > a {
+	color: #222222 !important;
+}
+body.theme-light .main_menu > ul.menu_bar > li > a:hover,
+body.theme-light .main_menu > ul.menu_bar > li > a[aria-expanded="true"] {
+	background: #0078d4 !important;
+	color: #ffffff !important;
+}
+body.theme-light .main_menu > ul.menu_dropdown {
+	background: #f4f4f4 !important;
+	border: 1px solid #b8b8b8 !important;
+	box-shadow: 0 4px 14px rgba(0,0,0,0.15) !important;
+}
+body.theme-light .main_menu > ul.menu_dropdown > li > a {
+	color: #222222 !important;
+}
+body.theme-light .main_menu > ul.menu_dropdown > li > a:hover {
+	background: #0078d4 !important;
+	color: #ffffff !important;
+}
+body.theme-light .main_menu > ul.menu_dropdown > li > hr {
+	border-color: #d0d0d0 !important;
+}
+
+/* 3. Light Options Bar */
+body.theme-light .psd_options_bar {
+	background: #e3e3e3 !important;
+	border-bottom: 1px solid #b8b8b8 !important;
+}
+body.theme-light .psd_tool_active_icon {
+	background: #ffffff !important;
+	border-color: #b8b8b8 !important;
+}
+body.theme-light .psd_tool_active_icon .psd_opt_icon {
+	filter: brightness(0.2) !important;
+}
+body.theme-light .psd_opt_group,
+body.theme-light .psd_checkbox_label {
+	color: #222222 !important;
+}
+body.theme-light .psd_select_sm {
+	background: #ffffff !important;
+	color: #222222 !important;
+	border-color: #b0b0b0 !important;
+}
+body.theme-light .psd_opt_separator {
+	background: #c5c5c5 !important;
+}
+body.theme-light .psd_align_btn {
+	color: #444444 !important;
+}
+body.theme-light .psd_align_btn:hover {
+	background: #cfcfcf !important;
+	color: #000000 !important;
+}
+
+/* 4. Light Left Toolbar */
+body.theme-light .sidebar_left {
+	background: #e3e3e3 !important;
+	border-right: 1px solid #b8b8b8 !important;
+}
+body.theme-light .psd_toolbar_header {
+	color: #555555 !important;
+	border-bottom: 1px solid #cccccc !important;
+}
+body.theme-light .psd_toolbar_header:hover {
+	color: #000000 !important;
+}
+body.theme-light .sidebar_left .item {
+	background-color: #eeeeee !important;
+	border: 1px solid #dcdcdc !important;
+}
+body.theme-light .sidebar_left .item:hover {
+	background-color: #d8d8d8 !important;
+	border-color: #b0b0b0 !important;
+}
+body.theme-light .sidebar_left .item.active {
+	background-color: #b8d4f8 !important;
+	border: 1px solid #70a4ea !important;
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.15) !important;
+}
+body.theme-light .sidebar_left .item:after {
+	filter: none !important;
+}
+body.theme-light .sidebar_left .item.active:after {
+	filter: brightness(0.2) contrast(1.5) !important;
+}
+body.theme-light .psd_color_container {
+	border-top: 1px solid #cccccc !important;
+}
+body.theme-light .psd_chip_fg {
+	border-color: #666666 !important;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.2) !important;
+}
+body.theme-light .psd_chip_bg {
+	border-color: #666666 !important;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.15) !important;
+}
+
+/* 5. Light Canvas Middle Area & Document Tabs */
+body.theme-light .middle_area,
+body.theme-light #main_wrapper,
+body.theme-light .main_wrapper {
+	background-color: #b0b0b0 !important;
+}
+body.theme-light .psd_doc_tabs {
+	background: #d6d6d6 !important;
+	border-bottom: 1px solid #b8b8b8 !important;
+}
+body.theme-light .psd_doc_tab {
+	background: #c8c8c8 !important;
+	color: #444444 !important;
+	border: 1px solid #b8b8b8 !important;
+	border-bottom: none !important;
+}
+body.theme-light .psd_doc_tab.active {
+	background: #e8e8e8 !important;
+	color: #111111 !important;
+	border-top: 2px solid #0078d4 !important;
+	box-shadow: 0 -1px 3px rgba(0,0,0,0.08) !important;
+}
+body.theme-light .psd_tab_close {
+	color: #666666 !important;
+}
+body.theme-light .psd_tab_close:hover {
+	color: #000000 !important;
+	background: rgba(0,0,0,0.08) !important;
+}
+body.theme-light .loaded .canvas_wrapper canvas {
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
+	border: 1px solid #888888 !important;
+}
+
+/* 6. Light Right Dock Rail & Cards */
+body.theme-light .sidebar_right {
+	background: #e3e3e3 !important;
+	border-left: 1px solid #b8b8b8 !important;
+}
+body.theme-light .psd_dock_rail {
+	background: #dcdcdc !important;
+	border-right: 1px solid #b8b8b8 !important;
+}
+body.theme-light .psd_rail_btn img {
+	filter: brightness(0.2) !important;
+}
+body.theme-light .psd_rail_btn:hover {
+	background: #cecece !important;
+}
+body.theme-light .psd_rail_btn.active {
+	background: #b8d4f8 !important;
+	border: 1px solid #70a4ea !important;
+}
+body.theme-light .psd_panel_card {
+	background: #f0f0f0 !important;
+	border: 1px solid #c2c2c2 !important;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+}
+body.theme-light .psd_card_header {
+	background: #e0e0e0 !important;
+	border-bottom: 1px solid #c8c8c8 !important;
+}
+body.theme-light .psd_card_tab {
+	color: #555555 !important;
+}
+body.theme-light .psd_card_tab:hover {
+	color: #000000 !important;
+}
+body.theme-light .psd_card_tab.active {
+	color: #111111 !important;
+	font-weight: 700 !important;
+}
+body.theme-light .psd_card_tab.active:after {
+	background: #0078d4 !important;
+}
+body.theme-light .psd_card_menu_btn {
+	color: #666666 !important;
+}
+body.theme-light .psd_card_menu_btn:hover {
+	color: #000000 !important;
+}
+
+/* 7. Light Curves & Adjustments */
+body.theme-light .psd_curves_title {
+	color: #222222 !important;
+}
+body.theme-light .psd_channel_row {
+	color: #444444 !important;
+}
+body.theme-light .psd_curves_canvas_container {
+	background: #fdfdfd !important;
+	border: 1px solid #b8b8b8 !important;
+}
+body.theme-light .psd_io_item {
+	color: #444444 !important;
+}
+body.theme-light .psd_io_item input {
+	background: #ffffff !important;
+	border: 1px solid #b8b8b8 !important;
+	color: #111111 !important;
+}
+body.theme-light .psd_btn_secondary {
+	background: #e4e4e4 !important;
+	border: 1px solid #b8b8b8 !important;
+	color: #222222 !important;
+}
+body.theme-light .psd_btn_secondary:hover {
+	background: #d8d8d8 !important;
+	color: #000000 !important;
+}
+body.theme-light .psd_curves_options .psd_checkbox_label {
+	color: #333333 !important;
+}
+
+/* 8. Light Layers Dock */
+body.theme-light .psd_layer_filter_row {
+	border-bottom: 1px solid #d4d4d4 !important;
+}
+body.theme-light .psd_filter_label {
+	color: #555555 !important;
+}
+body.theme-light .psd_kind_btn {
+	color: #555555 !important;
+}
+body.theme-light .psd_kind_btn:hover {
+	background: #d8d8d8 !important;
+	color: #111111 !important;
+}
+body.theme-light .psd_kind_btn.active {
+	background: #c8c8c8 !important;
+	border-color: #999999 !important;
+	color: #111111 !important;
+}
+body.theme-light .psd_select_blend {
+	background: #ffffff !important;
+	color: #222222 !important;
+	border: 1px solid #b8b8b8 !important;
+}
+body.theme-light .psd_opacity_field,
+body.theme-light .psd_fill_field {
+	color: #444444 !important;
+}
+body.theme-light .psd_opacity_field input,
+body.theme-light .psd_fill_field input {
+	background: #ffffff !important;
+	border: 1px solid #b8b8b8 !important;
+	color: #111111 !important;
+}
+body.theme-light .psd_layer_lock_row {
+	border-bottom: 1px solid #d4d4d4 !important;
+}
+body.theme-light .psd_lock_label,
+body.theme-light .psd_lock_icon {
+	color: #666666 !important;
+}
+body.theme-light .psd_lock_icon:hover {
+	color: #111111 !important;
+}
+body.theme-light #layers .item {
+	background: #f7f7f7 !important;
+	border-bottom: 1px solid #dfdfdf !important;
+	color: #222222 !important;
+}
+body.theme-light #layers .item:hover {
+	background: #eaeaea !important;
+}
+body.theme-light #layers .item.active {
+	background: #cce0ff !important;
+	border-color: #99c2ff !important;
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.06) !important;
+}
+body.theme-light #layers .item.active .psd_layer_title {
+	color: #004499 !important;
+	font-weight: 700 !important;
+}
+body.theme-light #layers .item .visibility {
+	color: #555555 !important;
+}
+body.theme-light #layers .item .visibility:hover {
+	color: #111111 !important;
+}
+body.theme-light .psd_layer_thumb {
+	background: #e8e8e8 !important;
+	border: 1px solid #c0c0c0 !important;
+	color: #333333 !important;
+}
+body.theme-light .psd_layer_title {
+	color: #222222 !important;
+}
+body.theme-light .psd_layer_subtitle {
+	color: #666666 !important;
+}
+body.theme-light #layers .item .delete {
+	color: #888888 !important;
+}
+body.theme-light #layers .item .delete:hover {
+	color: #dc2626 !important;
+}
+body.theme-light .psd_layers_footer {
+	background: #e0e0e0 !important;
+	border-top: 1px solid #c8c8c8 !important;
+}
+body.theme-light .psd_footer_btn {
+	color: #555555 !important;
+}
+body.theme-light .psd_footer_btn:hover {
+	background: #cecece !important;
+	color: #000000 !important;
+}
+body.theme-light .psd_channel_item {
+	color: #333333 !important;
+	border-bottom: 1px solid #e0e0e0 !important;
+}
+body.theme-light .psd_empty_state {
+	color: #888888 !important;
+}
+
+/* 9. Light Status Bar */
+body.theme-light .psd_status_bar {
+	background: #d6d6d6 !important;
+	border-top: 1px solid #b8b8b8 !important;
+	color: #555555 !important;
+}
+body.theme-light .psd_zoom_box input {
+	background: #ffffff !important;
+	border: 1px solid #b8b8b8 !important;
+	color: #222222 !important;
+}
+body.theme-light .psd_status_sep {
+	color: #aaaaaa !important;
+}
+body.theme-light .psd_status_center {
+	color: #444444 !important;
+}
+body.theme-light .psd_status_right .status_brand {
+	color: #0078d4 !important;
+}

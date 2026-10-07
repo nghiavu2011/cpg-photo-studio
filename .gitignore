@@ -1,0 +1,21 @@
+# OS generated files #
+.DS_Store
+.DS_Store?
+._*
+.Trashes
+ehthumbs.db
+Thumbs.db
+nbproject/
+.idea/
+.git/
+.vscode
+/.project
+*.log
+
+/node_modules/
+*.js.ignore
+screen*.png
+screen.png
+dom_dump*.html
+dumped_dom.html
+check_console.js

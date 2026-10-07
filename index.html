@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="x-ua-compatible" content="IE=edge" />
+	<title>CPG Photo Studio (PSD CC 2020 • PhotoCraft)</title>
+	<meta name="description" content="CPG Photo Studio - Bộ công cụ chỉnh sửa đồ họa chuyên nghiệp giao diện Photoshop CC 2020 & PhotoCraft" />
+	<meta name="keywords" content="cpg, photo, image, picture, photoshop, psd, layers, canvas, editor, photocraft" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0" />
+	<link rel="icon" sizes="192x192" href="images/cpg_logo_white_opt.png">
+	<script src="dist/bundle.js"></script>
+</head>
+<body>
+	<div class="wrapper">
+
+		<!-- Photoshop CC / PhotoCraft Top Menu Bar -->
+		<header class="psd_header" id="psd_header">
+			<nav aria-label="Main Menu" class="main_menu" id="main_menu"></nav>
+			<div class="psd_header_doc_title" id="psd_header_doc_title">great-wave.jpg •</div>
+			<div class="psd_header_right">
+				<button type="button" class="psd_hdr_btn" id="psd_btn_theme" title="Chuyển giao diện Sáng / Tối (Toggle Theme)">☀️</button>
+				<button type="button" class="psd_hdr_btn" id="psd_btn_search" title="Tìm phím tắt & lệnh (Search commands)">🔍</button>
+				<div class="psd_workspace_wrapper">
+					<select class="psd_workspace_select" id="psd_workspace_select" title="Không gian làm việc">
+						<option value="essentials">Essentials</option>
+						<option value="photography">Photography</option>
+						<option value="painting">Painting</option>
+						<option value="graphic">Graphic & Web</option>
+					</select>
+				</div>
+				<div class="lang_slice_switch" id="lang_slice_switch" title="Chuyển đổi ngôn ngữ Tiếng Việt / English (Language Switch)">
+					<button type="button" class="lang_slice_btn" id="lang_btn_vi" data-lang="vi">🇻🇳 TV</button>
+					<button type="button" class="lang_slice_btn active" id="lang_btn_en" data-lang="en">🇺🇸 EN</button>
+				</div>
+				<a class="cpg-brand-pill" href="#" title="CPG Photo Studio (PSD CC 2020)">
+					<img class="cpg-header-logo" alt="CPG" src="images/cpg_logo_white_opt.png" />
+					<span class="cpg-brand-name">CPG <span class="cpg-tag">PSD 2020</span></span>
+				</a>
+			</div>
+		</header>
+		
+		<!-- Photoshop CC / PhotoCraft Options Bar -->
+		<div class="submenu psd_options_bar">
+			<div class="psd_tool_active_icon" id="psd_tool_active_icon" title="Công cụ đang chọn">
+				<span class="psd_opt_icon select"></span>
+			</div>
+			<div class="psd_opt_group psd_autoselect_group">
+				<label class="psd_checkbox_label">
+					<input type="checkbox" id="psd_chk_autoselect" checked>
+					<span>Auto-Select:</span>
+				</label>
+				<select class="psd_select_sm" id="psd_sel_autoselect_mode">
+					<option>Layer</option>
+					<option>Group</option>
+				</select>
+			</div>
+			<div class="psd_opt_group">
+				<label class="psd_checkbox_label">
+					<input type="checkbox" id="psd_chk_transform_controls">
+					<span>Show Transform Controls</span>
+				</label>
+			</div>
+			<div class="psd_opt_separator"></div>
+			<div class="psd_align_group" title="Căn lề đối tượng (Align & Distribute)">
+				<button type="button" class="psd_align_btn" data-align="left" title="Căn lề trái (Align Left)">▎◻</button>
+				<button type="button" class="psd_align_btn" data-align="center_h" title="Căn giữa ngang (Align Center Horizontal)">◻▎◻</button>
+				<button type="button" class="psd_align_btn" data-align="right" title="Căn lề phải (Align Right)">◻▎</button>
+				<button type="button" class="psd_align_btn" data-align="top" title="Căn mép trên (Align Top)">▔◻</button>
+				<button type="button" class="psd_align_btn" data-align="center_v" title="Căn giữa dọc (Align Center Vertical)">-◻-</button>
+				<button type="button" class="psd_align_btn" data-align="bottom" title="Căn mép dưới (Align Bottom)">_◻</button>
+			</div>
+			<div class="psd_opt_separator"></div>
+			<div class="block attributes" id="action_attributes"></div>
+			<div class="psd_options_right">
+				<button class="cpg_stamp_button" id="cpg_quick_stamp_btn" type="button" title="Gắn nhanh Logo CPG vào góc ảnh (Watermark)">
+					<img src="images/cpg_logo_white_opt.png" alt="" />
+					<span>★ Gắn Logo CPG</span>
+				</button>
+				<button class="undo_button" id="undo_button" type="button" title="Undo (Ctrl+Z)">
+					<span class="sr_only">Undo</span>
+				</button>
+			</div>
+		</div>
+		
+		<!-- Left Toolbar -->
+		<div class="sidebar_left" id="tools_container">
+			<div class="psd_toolbar_header" id="psd_toolbar_collapse" title="Thu gọn / Mở rộng Toolbar">»</div>
+		</div>
+
+		<!-- Middle Canvas Workspace with PhotoCraft Tab Strip -->
+		<div class="middle_area" id="middle_area">
+			<div class="psd_doc_tabs" id="psd_doc_tabs">
+				<div class="psd_doc_tab active" id="psd_doc_tab_main">
+					<span class="psd_tab_close" id="psd_tab_close" title="Close document">✕</span>
+					<span class="psd_tab_title" id="psd_tab_title">great-wave.jpg @ 100% (Layer 1, RGB/8)</span>
+				</div>
+			</div>
+
+			<canvas class="ruler_left" id="ruler_left"></canvas>
+			<canvas class="ruler_top" id="ruler_top"></canvas>
+
+			<div class="main_wrapper" id="main_wrapper">
+				<div class="canvas_wrapper" id="canvas_wrapper">
+					<div id="mouse"></div>
+					<div class="transparent-grid" id="canvas_minipaint_background"></div>
+					<canvas id="canvas_minipaint">
+						<div class="trn error">
+							Your browser does not support canvas or JavaScript is not enabled.
+						</div>
+					</canvas>
+				</div>
+			</div>
+		</div>
+
+		<!-- Right Side Dock Panels (PhotoCraft 2-Tier Stack) -->
+		<div class="sidebar_right" id="sidebar_right">
+			<!-- Mini Icon Rail on left of dock -->
+			<div class="psd_dock_rail">
+				<button type="button" class="psd_rail_btn active" data-panel="properties" title="Properties">
+					<img src="images/icons/photocraft/sliders-horizontal.svg" alt="Properties" />
+				</button>
+				<button type="button" class="psd_rail_btn" data-panel="adjustments" title="Adjustments">
+					<img src="images/icons/photocraft/sparkles.svg" alt="Adjustments" />
+				</button>
+				<button type="button" class="psd_rail_btn" data-panel="layers" title="Layers">
+					<img src="images/icons/photocraft/layers.svg" alt="Layers" />
+				</button>
+				<button type="button" class="psd_rail_btn" data-panel="history" title="History">
+					<img src="images/icons/photocraft/clock.svg" alt="History" />
+				</button>
+			</div>
+
+			<div class="psd_dock_panels">
+				<!-- Top Panel Card: Properties / Adjustments -->
+				<div class="psd_panel_card" id="card_top">
+					<div class="psd_card_header">
+						<div class="psd_card_tabs">
+							<button type="button" class="psd_card_tab active" data-target="panel_properties">Properties</button>
+							<button type="button" class="psd_card_tab" data-target="panel_adjustments">Adjustments</button>
+						</div>
+						<div class="psd_card_menu_btn" title="Panel Options">☰</div>
+					</div>
+
+					<div class="psd_card_body">
+						<!-- Properties View (Shows Curves editor for active Curves adjustment layer) -->
+						<div class="psd_tab_page active" id="panel_properties">
+							<div class="psd_curves_editor" id="psd_curves_editor">
+								<div class="psd_curves_header">
+									<div class="psd_curves_title_wrap" style="display:flex; align-items:center; gap:6px;">
+										<span style="font-size:13px; color:#aaa;">▦</span>
+										<span class="psd_curves_title">Curves</span>
+									</div>
+									<div class="psd_channel_row">
+										<label>Channel:</label>
+										<select id="psd_curves_channel" class="psd_select_sm">
+											<option value="rgb">RGB</option>
+											<option value="red">Red</option>
+											<option value="green">Green</option>
+											<option value="blue">Blue</option>
+										</select>
+									</div>
+								</div>
+								<div class="psd_curves_canvas_container" id="psd_curves_canvas_container">
+									<canvas id="psd_curves_canvas" width="240" height="180" style="display:block; width:100%; height:auto;"></canvas>
+									<div class="psd_curves_grad_bar" style="height:6px; background:linear-gradient(to right, #000, #fff); margin-top:2px; border-radius:1px;"></div>
+								</div>
+								<div class="psd_curves_io_row">
+									<div class="psd_io_item">
+										<label>Input:</label>
+										<input type="number" id="psd_curves_input" min="0" max="255" value="0" readonly>
+									</div>
+									<div class="psd_io_item">
+										<label>Output:</label>
+										<input type="number" id="psd_curves_output" min="0" max="255" value="0" readonly>
+									</div>
+								</div>
+								<div class="psd_curves_options">
+									<label class="psd_checkbox_label">
+										<input type="checkbox" id="psd_curves_visible" checked>
+										<span>Adjustment visible</span>
+									</label>
+									<label class="psd_checkbox_label">
+										<input type="checkbox" id="psd_curves_clip">
+										<span>Clip to layer below</span>
+									</label>
+								</div>
+								<button type="button" class="psd_btn_secondary" id="psd_curves_reset">Reset to defaults</button>
+							</div>
+
+							<div class="details block hidden" id="details_base">
+								<div class="content details-content" id="toggle_details"></div>
+							</div>
+						</div>
+
+						<!-- Adjustments View (PhotoCraft Presets Grid) -->
+						<div class="psd_tab_page" id="panel_adjustments">
+							<div class="psd_adj_grid" style="display:grid; grid-template-columns: repeat(4, 1fr); gap:6px; padding:4px;">
+								<button type="button" class="psd_btn_secondary" title="Brightness/Contrast">◐</button>
+								<button type="button" class="psd_btn_secondary" title="Levels">▤</button>
+								<button type="button" class="psd_btn_secondary" style="border-color:#38bdf8;" title="Curves">▦</button>
+								<button type="button" class="psd_btn_secondary" title="Exposure">☼</button>
+								<button type="button" class="psd_btn_secondary" title="Vibrance">◓</button>
+								<button type="button" class="psd_btn_secondary" title="Hue/Saturation">◈</button>
+								<button type="button" class="psd_btn_secondary" title="Color Balance">⚖</button>
+								<button type="button" class="psd_btn_secondary" title="Black & White">◑</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Bottom Panel Card: Layers / Channels / Paths -->
+				<div class="psd_panel_card" id="card_bottom">
+					<div class="psd_card_header">
+						<div class="psd_card_tabs">
+							<button type="button" class="psd_card_tab active" data-target="panel_layers">Layers</button>
+							<button type="button" class="psd_card_tab" data-target="panel_channels">Channels</button>
+							<button type="button" class="psd_card_tab" data-target="panel_paths">Paths</button>
+						</div>
+						<div class="psd_card_menu_btn" title="Panel Options">☰</div>
+					</div>
+
+					<div class="psd_card_body">
+						<div class="psd_tab_page active" id="panel_layers">
+							<!-- Kind Filter Row -->
+							<div class="psd_layer_filter_row">
+								<span class="psd_filter_label">Kind:</span>
+								<div class="psd_kind_icons">
+									<button type="button" class="psd_kind_btn active" data-kind="image" title="Filter for pixel layers">🖼</button>
+									<button type="button" class="psd_kind_btn" data-kind="adjustment" title="Filter for adjustment layers">◐</button>
+									<button type="button" class="psd_kind_btn" data-kind="type" title="Filter for type layers">T</button>
+									<button type="button" class="psd_kind_btn" data-kind="shape" title="Filter for shape layers">⬛</button>
+									<button type="button" class="psd_kind_btn" data-kind="smart" title="Filter for smart objects">🗎</button>
+								</div>
+							</div>
+
+							<!-- Blend Mode & Opacity Row -->
+							<div class="psd_layer_blend_row">
+								<select id="psd_layer_blend_mode" class="psd_select_blend">
+									<option value="normal">Normal</option>
+									<option value="multiply">Multiply</option>
+									<option value="screen">Screen</option>
+									<option value="overlay">Overlay</option>
+									<option value="darken">Darken</option>
+									<option value="lighten">Lighten</option>
+									<option value="color-dodge">Color Dodge</option>
+									<option value="color-burn">Color Burn</option>
+									<option value="hard-light">Hard Light</option>
+									<option value="soft-light">Soft Light</option>
+									<option value="difference">Difference</option>
+									<option value="exclusion">Exclusion</option>
+									<option value="hue">Hue</option>
+									<option value="saturation">Saturation</option>
+									<option value="color">Color</option>
+									<option value="luminosity">Luminosity</option>
+								</select>
+								<div class="psd_opacity_field">
+									<label>Opacity:</label>
+									<input type="number" id="psd_layer_opacity" min="0" max="100" value="100">%
+								</div>
+							</div>
+
+							<!-- Lock & Fill Row -->
+							<div class="psd_layer_lock_row">
+								<div class="psd_lock_group">
+									<span class="psd_lock_label">Lock:</span>
+									<button type="button" class="psd_lock_icon" id="psd_lock_trans" title="Lock transparent pixels">⬜</button>
+									<button type="button" class="psd_lock_icon" id="psd_lock_brush" title="Lock image pixels">🖌</button>
+									<button type="button" class="psd_lock_icon" id="psd_lock_move" title="Lock position">✥</button>
+									<button type="button" class="psd_lock_icon" id="psd_lock_all" title="Lock all">🔒</button>
+								</div>
+								<div class="psd_fill_field">
+									<label>Fill:</label>
+									<input type="number" id="psd_layer_fill" min="0" max="100" value="100">%
+								</div>
+							</div>
+
+							<!-- Layers List Container -->
+							<div class="layers block">
+								<div class="content" id="layers_base"></div>
+							</div>
+
+							<!-- Layer Panel Footer Action Bar (Icons) -->
+							<div class="psd_layers_footer">
+								<button type="button" class="psd_footer_btn" id="psd_layer_link" title="Link Layers">🔗</button>
+								<button type="button" class="psd_footer_btn" id="psd_layer_fx" title="Add a layer style">fx</button>
+								<button type="button" class="psd_footer_btn" id="psd_layer_mask" title="Add layer mask">▢</button>
+								<button type="button" class="psd_footer_btn" id="psd_layer_adjust" title="Create new adjustment layer">◐</button>
+								<button type="button" class="psd_footer_btn" id="psd_layer_group" title="Create a new group">📁</button>
+								<button type="button" class="psd_footer_btn" id="psd_layer_new" title="Create a new layer">+</button>
+								<button type="button" class="psd_footer_btn" id="psd_layer_delete" title="Delete layer">🗑</button>
+							</div>
+						</div>
+
+						<div class="psd_tab_page" id="panel_channels">
+							<div class="psd_channel_item"><span>RGB</span><span>Ctrl+2</span></div>
+							<div class="psd_channel_item"><span>Red</span><span>Ctrl+3</span></div>
+							<div class="psd_channel_item"><span>Green</span><span>Ctrl+4</span></div>
+							<div class="psd_channel_item"><span>Blue</span><span>Ctrl+5</span></div>
+						</div>
+
+						<div class="psd_tab_page" id="panel_paths">
+							<div class="psd_empty_state">No active vector paths</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="mobile_menu">
+		<button class="left_mobile_menu" id="left_mobile_menu_button" type="button">
+			<span class="sr_only">Toggle Menu</span>
+		</button>
+		<button class="right_mobile_menu" id="mobile_menu_button" type="button">
+			<span class="sr_only">Toggle Menu</span>
+		</button>
+	</div>
+	<div class="hidden" id="tmp">
+		<img id="preload_great_wave" src="images/great-wave.jpg" alt="" style="display:none;">
+		<canvas id="canvas_preview"></canvas>
+		<div id="toggle_preview"></div>
+		<div id="toggle_colors"></div>
+		<div id="toggle_info"><span id="mouse_info_mouse"></span></div>
+	</div>
+	<div id="popups"></div>
+
+	<!-- Status Bar matching PhotoCraft -->
+	<div class="psd_status_bar" id="psd_status_bar">
+		<div class="psd_status_left">
+			<div class="psd_zoom_box">
+				<input type="text" id="psd_status_zoom_input" value="100.0 %" title="Zoom % (Nhập số và gõ Enter)">
+			</div>
+			<span class="psd_status_sep">|</span>
+			<span id="psd_status_profile">RGB Color • 8 bit</span>
+			<span class="psd_status_sep">|</span>
+			<span id="psd_status_doc">1920 × 1080 px</span>
+			<span class="psd_status_sep">|</span>
+			<span id="psd_status_layers_count">1 layer</span>
+		</div>
+		<div class="psd_status_center">
+			<span id="psd_status_action">Opened great-wave.jpg</span>
+		</div>
+		<div class="psd_status_right">
+			<span class="status_brand">★ CPG Photo Studio CC 2020</span>
+		</div>
+	</div>
+</body>
+</html>
