@@ -5,6 +5,8 @@
 
 import config from './../../config.js';
 import Base_layers_class from './../base-layers.js';
+import zoomView from './../../libs/zoomView.js';
+import app from './../../app.js';
 
 var instance = null;
 
@@ -111,16 +113,25 @@ class GUI_preview_class {
 			_this.zoom_auto();
 		}, false);
 		document.getElementById('main_wrapper').addEventListener('wheel', function (e) {
-			//zoom with mouse scroll
 			e.preventDefault();
-			_this.zoom_data.x = e.offsetX;
-			_this.zoom_data.y = e.offsetY;
-			var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail || -e.deltaY)));
-			if (delta > 0)
-				_this.zoom(+1, e);
-			else
-				_this.zoom(-1, e);
-		}, false);
+			// If Alt or Ctrl is held: Zoom centered on mouse (Photoshop CC standard)
+			if (e.altKey || e.ctrlKey) {
+				_this.zoom_data.x = e.offsetX;
+				_this.zoom_data.y = e.offsetY;
+				var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail || -e.deltaY)));
+				if (delta > 0)
+					_this.zoom(+1, e);
+				else
+					_this.zoom(-1, e);
+			} else {
+				// Normal scroll: Pan/scroll canvas vertically (Shift + wheel = horizontally)
+				var dx = e.shiftKey ? -(e.deltaY || e.deltaX) : -(e.deltaX || 0);
+				var dy = e.shiftKey ? 0 : -(e.deltaY || 0);
+				zoomView.move(dx, dy);
+				config.need_render = true;
+				if (app.Layers) app.Layers.render();
+			}
+		}, { passive: false });
 		window.addEventListener('resize', function (e) {
 			//resize
 			config.need_render = true;

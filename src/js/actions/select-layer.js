@@ -34,6 +34,9 @@ export class Select_layer_action extends Base_action {
 
 		app.Layers.render();
 		app.GUI.GUI_layers.render_layers();
+		if (app.GUI && app.GUI.Photocraft_UI) {
+			app.GUI.Photocraft_UI.sync_layer_selection();
+		}
 	}
 
 	async undo() {
@@ -49,6 +52,9 @@ export class Select_layer_action extends Base_action {
 
 		app.Layers.render();
 		app.GUI.GUI_layers.render_layers();
+		if (app.GUI && app.GUI.Photocraft_UI) {
+			app.GUI.Photocraft_UI.sync_layer_selection();
+		}
 	}
 
 	free() {

@@ -19,3 +19,4 @@ screen.png
 dom_dump*.html
 dumped_dom.html
 check_console.js
+.vercel

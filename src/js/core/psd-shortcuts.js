@@ -1,11 +1,12 @@
 /*
- * CPG Photo Studio - Photoshop CC 2020 Keyboard Shortcuts & Navigation Engine
- * Fully compatible with Adobe Photoshop CC 2020 workflows
+ * CPG Photo Studio - Photoshop CC 2020 Complete Keyboard Shortcuts & Navigation Engine
+ * 100% Compatible with Adobe Photoshop CC 2020 standard workflows
  */
 
 import config from './../config.js';
 import app from './../app.js';
 import Helper_class from './../libs/helpers.js';
+import zoomView from './../libs/zoomView.js';
 import alertify from './../../../node_modules/alertifyjs/build/alertify.min.js';
 
 var instance = null;
@@ -48,20 +49,117 @@ class Psd_shortcuts_class {
 			const isShift = event.shiftKey;
 			const isAlt = event.altKey;
 
-			// Handle commands with Ctrl/Cmd
+			// ====================================================================
+			// 1. Ctrl / Cmd Combinations (Photoshop CC Standard)
+			// ====================================================================
 			if (isCtrl && !isAlt) {
-				// Ctrl + D: Deselect
+				// Ctrl + D : Deselect
 				if (key === 'd') {
 					event.preventDefault();
 					this.deselect();
+					alertify.message('Bỏ chọn (Deselect - Ctrl+D)', 1.5);
 					return;
 				}
 
-				// Ctrl + T: Free Transform / Select tool
+				// Ctrl + A : Select All
+				if (key === 'a') {
+					event.preventDefault();
+					this.activate_tool('selection');
+					if (this.GUI && this.GUI.GUI_tools && this.GUI.GUI_tools.tools_modules['selection']) {
+						this.GUI.GUI_tools.tools_modules['selection'].object.select_all();
+					}
+					alertify.message('Chọn tất cả (Select All - Ctrl+A)', 1.5);
+					return;
+				}
+
+				// Ctrl + T : Free Transform
 				if (key === 't') {
 					event.preventDefault();
 					this.activate_tool('select');
-					alertify.message('Transform / Move tool active (Ctrl+T)', 2);
+					const chkTransform = document.getElementById('psd_chk_transform_controls');
+					if (chkTransform) chkTransform.checked = true;
+					if (app.Layers && app.Layers.Base_selection) {
+						const settings = app.Layers.Base_selection.find_settings();
+						if (settings) {
+							settings.enable_borders = true;
+							settings.enable_controls = true;
+							settings.enable_rotation = true;
+						}
+					}
+					config.need_render = true;
+					if (app.Layers) app.Layers.render();
+					alertify.message('Free Transform (Ctrl+T): Co giãn / xoay đối tượng', 2);
+					return;
+				}
+
+				// Ctrl + J : Duplicate Active Layer
+				if (key === 'j') {
+					event.preventDefault();
+					if (config.layer && config.layer.id) {
+						if (this.GUI && this.GUI.modules && this.GUI.modules['layer/duplicate']) {
+							this.GUI.modules['layer/duplicate'].duplicate();
+						} else {
+							const clone = JSON.parse(JSON.stringify(config.layer));
+							delete clone.id;
+							clone.name = config.layer.name + ' copy';
+							clone.order = config.layer.order + 0.5;
+							app.State.do_action(new app.Actions.Insert_layer_action(clone));
+						}
+						alertify.success(`Nhân đôi Layer (Ctrl+J): ${config.layer ? config.layer.name : ''}`, 1.5);
+					}
+					return;
+				}
+
+				// Ctrl + Shift + N : Create New Layer
+				if (isShift && key === 'n') {
+					event.preventDefault();
+					app.State.do_action(new app.Actions.Insert_layer_action());
+					alertify.success('Đã tạo Layer mới (Ctrl+Shift+N)', 1.5);
+					return;
+				}
+
+				// Ctrl + [ and Ctrl + ] : Reorder Layer (Bring Forward / Send Backward)
+				if (key === '[' || key === ']') {
+					event.preventDefault();
+					if (config.layer && config.layer.id) {
+						const dir = key === ']' ? 1 : -1;
+						if (isShift) {
+							// Bring to Front / Send to Back
+							if (dir === 1) {
+								const maxOrder = Math.max(...config.layers.map(l => l.order));
+								config.layer.order = maxOrder + 1;
+								alertify.message('Đưa lên trên cùng (Bring to Front)', 1.5);
+							} else {
+								config.layer.order = 1.1;
+								alertify.message('Đưa xuống dưới cùng (Send to Back)', 1.5);
+							}
+						} else {
+							app.State.do_action(new app.Actions.Reorder_layer_action(config.layer.id, dir));
+							alertify.message(dir === 1 ? 'Đưa layer lên một bậc (Ctrl+])' : 'Đưa layer xuống một bậc (Ctrl+[)', 1.5);
+						}
+						if (app.Layers) app.Layers.render();
+						if (this.GUI && this.GUI.GUI_layers) this.GUI.GUI_layers.render_layers();
+					}
+					return;
+				}
+
+				// Ctrl + 0 : Fit Canvas to Screen
+				if (key === '0') {
+					event.preventDefault();
+					if (this.GUI && this.GUI.GUI_preview) {
+						this.GUI.GUI_preview.zoom_auto();
+					}
+					alertify.message('Fit to Screen (Ctrl+0)', 1);
+					return;
+				}
+
+				// Ctrl + 1 : Actual Size 100% Zoom
+				if (key === '1') {
+					event.preventDefault();
+					if (this.GUI && this.GUI.GUI_preview) {
+						this.GUI.GUI_preview.zoom(100);
+					}
+					alertify.message('100% Actual Pixels (Ctrl+1)', 1);
 					return;
 				}
 
@@ -83,25 +181,23 @@ class Psd_shortcuts_class {
 					return;
 				}
 
-				// Ctrl + 0 : Fit Window
-				if (key === '0') {
+				// Ctrl + S : Quick Export / Save
+				if (key === 's') {
 					event.preventDefault();
-					if (this.GUI && this.GUI.GUI_preview) {
-						this.GUI.GUI_preview.zoom_auto();
+					this.quick_export_png();
+					return;
+				}
+
+				// Ctrl + O : Open File
+				if (key === 'o') {
+					event.preventDefault();
+					if (this.GUI && this.GUI.modules && this.GUI.modules['file/open']) {
+						this.GUI.modules['file/open'].open_file();
 					}
 					return;
 				}
 
-				// Ctrl + 1 : 100% Zoom
-				if (key === '1') {
-					event.preventDefault();
-					if (this.GUI && this.GUI.GUI_preview) {
-						this.GUI.GUI_preview.zoom(100);
-					}
-					return;
-				}
-
-				// Ctrl + Shift + E : Quick Export as PNG (PhotoCraft feature)
+				// Ctrl + Shift + E : Quick Export
 				if (isShift && key === 'e') {
 					event.preventDefault();
 					this.quick_export_png();
@@ -109,70 +205,113 @@ class Psd_shortcuts_class {
 				}
 			}
 
-			// Single key tool switching & Photoshop navigation
+			// ====================================================================
+			// 2. Delete / Backspace (Delete Active Layer)
+			// ====================================================================
+			if ((key === 'delete' || key === 'backspace') && !isCtrl && !isAlt) {
+				if (config.layer && config.layer.id && config.layer.name !== 'Background' && !config.layer.locked) {
+					event.preventDefault();
+					const name = config.layer.name;
+					app.State.do_action(new app.Actions.Delete_layer_action(config.layer.id));
+					alertify.message(`Đã xóa layer: ${name}`, 1.5);
+					return;
+				}
+			}
+
+			// ====================================================================
+			// 3. Number keys 0-9 on Move Tool: Quick Layer Opacity (PSD Standard)
+			// ====================================================================
+			if (!isCtrl && !isAlt && !isShift && config.TOOL && config.TOOL.name === 'select') {
+				if (/^[0-9]$/.test(key) && config.layer && !config.layer.locked) {
+					event.preventDefault();
+					const num = parseInt(key, 10);
+					const opacity = num === 0 ? 100 : num * 10;
+					config.layer.opacity = opacity;
+					const opInput = document.getElementById('psd_layer_opacity');
+					if (opInput) opInput.value = opacity;
+					config.need_render = true;
+					if (app.Layers) app.Layers.render();
+					alertify.message(`Opacity: ${opacity}%`, 1);
+					return;
+				}
+			}
+
+			// ====================================================================
+			// 4. Single Key Tool Shortcuts & Navigation (PSD CC 2020 Standard)
+			// ====================================================================
 			if (!isCtrl && !isAlt) {
 				switch (key) {
-					// V: Move / Select tool
+					// V: Move Tool
 					case 'v':
 						event.preventDefault();
 						this.activate_tool('select');
+						alertify.message('Move Tool (V)', 1);
 						break;
 
 					// M: Marquee Selection
 					case 'm':
 						event.preventDefault();
 						this.activate_tool('selection');
+						alertify.message('Marquee Tool (M)', 1);
 						break;
 
-					// C: Crop tool
-					case 'c':
+					// L: Lasso Tool
+					case 'l':
 						event.preventDefault();
-						this.activate_tool('crop');
-						break;
-
-					// I: Eyedropper (Pick Color)
-					case 'i':
-						event.preventDefault();
-						this.activate_tool('pick_color');
-						break;
-
-					// B: Brush tool / Pencil tool cycling (PhotoCraft style)
-					case 'b':
-						event.preventDefault();
-						if (config.TOOL.name === 'brush') {
-							this.activate_tool('pencil');
-							alertify.message('Pencil Tool (N)', 1);
-						} else {
-							this.activate_tool('brush');
-							alertify.message('Brush Tool (B)', 1);
-						}
-						break;
-
-					// N: Pencil tool
-					case 'n':
-						event.preventDefault();
-						this.activate_tool('pencil');
-						break;
-
-					// E: Eraser tool / Magic Eraser cycling (PhotoCraft style)
-					case 'e':
-						event.preventDefault();
-						if (config.TOOL.name === 'erase') {
-							this.activate_tool('magic_erase');
-							alertify.message('Magic Eraser (W)', 1);
-						} else {
-							this.activate_tool('erase');
-							alertify.message('Eraser Tool (E)', 1);
-						}
+						this.activate_tool('lasso');
+						alertify.message('Lasso Tool (L)', 1);
 						break;
 
 					// W: Magic Wand / Magic Eraser
 					case 'w':
 						event.preventDefault();
 						this.activate_tool('magic_erase');
+						alertify.message('Magic Wand (W)', 1);
 						break;
 
-					// G: Paint Bucket / Gradient cycling (PhotoCraft style)
+					// C: Crop Tool
+					case 'c':
+						event.preventDefault();
+						this.activate_tool('crop');
+						alertify.message('Crop Tool (C)', 1);
+						break;
+
+					// I: Eyedropper (Color Picker)
+					case 'i':
+						event.preventDefault();
+						this.activate_tool('pick_color');
+						alertify.message('Eyedropper Tool (I)', 1);
+						break;
+
+					// B: Brush Tool
+					case 'b':
+						event.preventDefault();
+						this.activate_tool('brush');
+						alertify.message('Brush Tool (B)', 1);
+						break;
+
+					// N: Pencil Tool
+					case 'n':
+						event.preventDefault();
+						this.activate_tool('pencil');
+						alertify.message('Pencil Tool (N)', 1);
+						break;
+
+					// S: Clone Stamp Tool
+					case 's':
+						event.preventDefault();
+						this.activate_tool('clone');
+						alertify.message('Clone Stamp (S)', 1);
+						break;
+
+					// E: Eraser Tool
+					case 'e':
+						event.preventDefault();
+						this.activate_tool('erase');
+						alertify.message('Eraser Tool (E)', 1);
+						break;
+
+					// G: Paint Bucket / Gradient Tool
 					case 'g':
 						event.preventDefault();
 						if (config.TOOL.name === 'fill') {
@@ -184,48 +323,51 @@ class Psd_shortcuts_class {
 						}
 						break;
 
-					// T: Type / Text tool
+					// T: Horizontal Type Tool
 					case 't':
 						event.preventDefault();
 						this.activate_tool('text');
+						alertify.message('Type Tool (T)', 1);
 						break;
 
-					// U: Shapes tool
+					// U: Shapes Tool
 					case 'u':
 						event.preventDefault();
 						this.activate_tool('shape');
+						alertify.message('Shapes Tool (U)', 1);
 						break;
 
-					// S: Clone Stamp tool
-					case 's':
+					// H: Hand Tool (Pan)
+					case 'h':
 						event.preventDefault();
-						this.activate_tool('clone');
+						alertify.message('Hand Tool (H): Giữ phím Space để kéo vùng nhìn', 1.5);
 						break;
 
-					// R: Blur / Sharpen cycling (PhotoCraft style)
+					// Z: Zoom Tool
+					case 'z':
+						event.preventDefault();
+						if (this.GUI && this.GUI.GUI_preview) {
+							this.GUI.GUI_preview.zoom(1);
+						}
+						break;
+
+					// R: Blur / Sharpen Tool
 					case 'r':
 						event.preventDefault();
 						if (config.TOOL.name === 'blur') {
 							this.activate_tool('sharpen');
-							alertify.message('Sharpen Tool', 1);
+							alertify.message('Sharpen Tool (R)', 1);
 						} else {
 							this.activate_tool('blur');
 							alertify.message('Blur Tool (R)', 1);
 						}
 						break;
 
-					// O: Dodge / Burn / Desaturate
+					// O: Dodge / Burn / Desaturate Tool
 					case 'o':
 						event.preventDefault();
 						this.activate_tool('desaturate');
-						break;
-
-					// Z: Zoom In tool
-					case 'z':
-						event.preventDefault();
-						if (this.GUI && this.GUI.GUI_preview) {
-							this.GUI.GUI_preview.zoom(1);
-						}
+						alertify.message('Sponge / Desaturate (O)', 1);
 						break;
 
 					// X: Swap Foreground and Background colors
@@ -252,9 +394,9 @@ class Psd_shortcuts_class {
 						this.adjust_tool_size(1);
 						break;
 
-					// Enter: Commit Crop (PhotoCraft behavior)
+					// Enter: Commit Crop
 					case 'enter':
-						if (config.TOOL.name === 'crop') {
+						if (config.TOOL && config.TOOL.name === 'crop') {
 							event.preventDefault();
 							if (this.GUI && this.GUI.GUI_tools && this.GUI.GUI_tools.tools_modules['crop']) {
 								this.GUI.GUI_tools.tools_modules['crop'].object.crop();
@@ -263,9 +405,9 @@ class Psd_shortcuts_class {
 						}
 						break;
 
-					// Escape: Cancel Crop (PhotoCraft behavior)
+					// Escape: Cancel Crop
 					case 'escape':
-						if (config.TOOL.name === 'crop') {
+						if (config.TOOL && config.TOOL.name === 'crop') {
 							event.preventDefault();
 							this.activate_tool('select');
 							alertify.message('Đã hủy cắt (Crop canceled)', 1.5);
@@ -277,7 +419,7 @@ class Psd_shortcuts_class {
 					case 'arrowdown':
 					case 'arrowleft':
 					case 'arrowright':
-						if (config.layer && config.layer.id) {
+						if (config.layer && config.layer.id && !config.layer.locked) {
 							event.preventDefault();
 							const delta = isShift ? 10 : 1;
 							let dx = 0, dy = 0;
@@ -289,6 +431,7 @@ class Psd_shortcuts_class {
 							config.layer.x += dx;
 							config.layer.y += dy;
 							config.need_render = true;
+							if (app.Layers) app.Layers.render();
 						}
 						break;
 				}
@@ -300,18 +443,22 @@ class Psd_shortcuts_class {
 		if (this.GUI && this.GUI.GUI_tools) {
 			this.GUI.GUI_tools.activate_tool(toolName);
 		}
+		// Sync options bar tool icon
+		const optToolIcon = document.getElementById('psd_tool_active_icon');
+		if (optToolIcon) {
+			optToolIcon.innerHTML = `<span class="psd_opt_icon ${toolName}"></span>`;
+		}
 	}
 
 	deselect() {
-		// Deselect / clear active selection
 		if (app.Layers && app.Layers.Base_selection) {
 			app.Layers.Base_selection.reset_selection();
 		}
-		// Clear selection tool
 		if (this.GUI && this.GUI.modules && this.GUI.modules['edit/selection']) {
 			this.GUI.modules['edit/selection'].delete();
 		}
 		config.need_render = true;
+		if (app.Layers) app.Layers.render();
 	}
 
 	swap_colors() {
@@ -320,7 +467,7 @@ class Psd_shortcuts_class {
 		config.COLOR_BG = temp;
 
 		this.update_color_ui();
-		alertify.message(`Đổi màu: ${config.COLOR}`, 1.5);
+		alertify.message(`Đổi màu vẽ: ${config.COLOR}`, 1.5);
 	}
 
 	reset_default_colors() {
@@ -372,7 +519,7 @@ class Psd_shortcuts_class {
 				this.GUI.GUI_tools.show_action_attributes();
 			}
 			config.need_render = true;
-			alertify.message(`${activeTool.name} size: ${next}px`, 1);
+			alertify.message(`Kích thước cọ: ${next}px`, 1);
 		}
 	}
 
@@ -414,9 +561,10 @@ class Psd_shortcuts_class {
 					const dy = e.clientY - this.space_drag_start.y;
 					this.space_drag_start = { x: e.clientX, y: e.clientY };
 
-					if (app.Layers && app.Layers.zoomView) {
-						app.Layers.zoomView.move(dx, dy);
-						config.need_render = true;
+					zoomView.move(dx, dy);
+					config.need_render = true;
+					if (app.Layers) {
+						app.Layers.render();
 					}
 				}
 			});
@@ -442,13 +590,13 @@ class Psd_shortcuts_class {
 		canvas.toBlob(function (blob) {
 			if (!blob) return;
 			var a = document.createElement('a');
-			a.download = 'CPG-Export-' + Date.now() + '.png';
+			a.download = 'CPG-Studio-' + Date.now() + '.png';
 			a.href = URL.createObjectURL(blob);
 			document.body.appendChild(a);
 			a.click();
 			document.body.removeChild(a);
 			URL.revokeObjectURL(a.href);
-			alertify.success('★ Đã xuất nhanh ảnh PNG (Quick Export PNG)!');
+			alertify.success('★ Đã xuất nhanh ảnh PNG (Ctrl+S)!', 2);
 		}, 'image/png');
 	}
 }

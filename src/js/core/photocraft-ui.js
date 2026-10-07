@@ -495,6 +495,58 @@ class Photocraft_UI {
 				if (sidebar) sidebar.classList.toggle('collapsed');
 			});
 		}
+
+		// Auto-Select checkbox in Options Bar
+		const chkAutoSelect = document.getElementById('psd_chk_autoselect');
+		if (chkAutoSelect) {
+			chkAutoSelect.addEventListener('change', (e) => {
+				const selectTool = this.GUI?.GUI_tools?.tools_modules?.['select']?.object;
+				if (selectTool && selectTool.attributes) {
+					selectTool.attributes.auto_select = e.target.checked;
+				}
+				alertify.message(e.target.checked ? 'Auto-Select: Bật (Click chọn layer trên canvas)' : 'Auto-Select: Tắt', 1.5);
+			});
+		}
+
+		// Show Transform Controls checkbox in Options Bar
+		const chkTransform = document.getElementById('psd_chk_transform_controls');
+		if (chkTransform) {
+			chkTransform.addEventListener('change', (e) => {
+				if (app.Layers && app.Layers.Base_selection) {
+					const settings = app.Layers.Base_selection.find_settings();
+					if (settings) {
+						settings.enable_borders = e.target.checked;
+						settings.enable_controls = e.target.checked;
+						settings.enable_rotation = e.target.checked;
+					}
+				}
+				config.need_render = true;
+				if (app.Layers) app.Layers.render();
+				alertify.message(e.target.checked ? 'Transform Controls: Bật (Hiện khung co giãn / xoay)' : 'Transform Controls: Tắt', 1.5);
+			});
+		}
+	}
+
+	sync_layer_selection() {
+		this.update_doc_info();
+
+		// Sync opacity input
+		const opInput = document.getElementById('psd_layer_opacity');
+		if (opInput && config.layer) {
+			opInput.value = config.layer.opacity ?? 100;
+		}
+
+		// Sync blend mode select
+		const blendSelect = document.getElementById('psd_layer_blend_mode');
+		if (blendSelect && config.layer) {
+			blendSelect.value = config.layer.composition || 'normal';
+		}
+
+		// If Curves 1 layer is selected, switch to Properties panel
+		if (config.layer && config.layer.name && config.layer.name.toLowerCase().includes('curves')) {
+			const propTab = document.querySelector('.psd_card_tab[data-target="panel_properties"]');
+			if (propTab) propTab.click();
+		}
 	}
 
 	// 6. Alignments
@@ -517,6 +569,7 @@ class Photocraft_UI {
 				if (mode === 'bottom') config.layer.y = h - lh;
 
 				config.need_render = true;
+				if (app.Layers) app.Layers.render();
 				alertify.message(`Căn lề: ${mode}`, 1);
 			});
 		});
@@ -564,28 +617,28 @@ class Photocraft_UI {
 			config.layers.push(bgLayer);
 
 			// Layer 2: Caption Card (Shape layer with dark rounded rectangle + shadow)
-			const cardCanvas = document.createElement('canvas');
-			cardCanvas.width = w;
-			cardCanvas.height = h;
-			const cardCtx = cardCanvas.getContext('2d');
-
 			const cardW = Math.round(w * 0.285);
 			const cardH = Math.round(h * 0.135);
 			const cardX = Math.round(w * 0.038);
 			const cardY = Math.round(h * 0.708);
 			const r = 36;
 
+			const cardCanvas = document.createElement('canvas');
+			cardCanvas.width = cardW;
+			cardCanvas.height = cardH;
+			const cardCtx = cardCanvas.getContext('2d');
+
 			cardCtx.save();
 			cardCtx.shadowColor = 'rgba(0, 0, 0, 0.75)';
 			cardCtx.shadowBlur = 50;
 			cardCtx.shadowOffsetY = 18;
 
-			cardCtx.fillStyle = 'rgba(24, 28, 36, 0.84)';
+			cardCtx.fillStyle = 'rgba(24, 28, 36, 0.88)';
 			cardCtx.beginPath();
 			if (cardCtx.roundRect) {
-				cardCtx.roundRect(cardX, cardY, cardW, cardH, r);
+				cardCtx.roundRect(0, 0, cardW, cardH, r);
 			} else {
-				cardCtx.rect(cardX, cardY, cardW, cardH);
+				cardCtx.rect(0, 0, cardW, cardH);
 			}
 			cardCtx.fill();
 			cardCtx.restore();
@@ -596,12 +649,12 @@ class Photocraft_UI {
 				name: 'Caption Card',
 				type: 'image',
 				link: cardCanvas,
-				x: 0,
-				y: 0,
-				width: w,
-				height: h,
-				width_original: w,
-				height_original: h,
+				x: cardX,
+				y: cardY,
+				width: cardW,
+				height: cardH,
+				width_original: cardW,
+				height_original: cardH,
 				rotate: 0,
 				visible: true,
 				opacity: 100,
@@ -613,14 +666,16 @@ class Photocraft_UI {
 			config.layers.push(cardLayer);
 
 			// Layer 3: Title (Type layer)
+			const titleW = 780;
+			const titleH = 120;
 			const titleCanvas = document.createElement('canvas');
-			titleCanvas.width = w;
-			titleCanvas.height = h;
+			titleCanvas.width = titleW;
+			titleCanvas.height = titleH;
 			const titleCtx = titleCanvas.getContext('2d');
 			titleCtx.font = 'bold 84px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
 			titleCtx.fillStyle = '#ffffff';
 			titleCtx.textBaseline = 'middle';
-			titleCtx.fillText('The Great Wave', cardX + 54, cardY + Math.round(cardH * 0.38));
+			titleCtx.fillText('The Great Wave', 10, 60);
 
 			const titleLayer = {
 				id: 3,
@@ -628,12 +683,12 @@ class Photocraft_UI {
 				name: 'Title',
 				type: 'image',
 				link: titleCanvas,
-				x: 0,
-				y: 0,
-				width: w,
-				height: h,
-				width_original: w,
-				height_original: h,
+				x: cardX + 44,
+				y: cardY + 45,
+				width: titleW,
+				height: titleH,
+				width_original: titleW,
+				height_original: titleH,
 				rotate: 0,
 				visible: true,
 				opacity: 100,
@@ -645,14 +700,16 @@ class Photocraft_UI {
 			config.layers.push(titleLayer);
 
 			// Layer 4: Credit (Type layer)
+			const creditW = 860;
+			const creditH = 80;
 			const creditCanvas = document.createElement('canvas');
-			creditCanvas.width = w;
-			creditCanvas.height = h;
+			creditCanvas.width = creditW;
+			creditCanvas.height = creditH;
 			const creditCtx = creditCanvas.getContext('2d');
 			creditCtx.font = '500 38px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
 			creditCtx.fillStyle = '#94a3b8';
 			creditCtx.textBaseline = 'middle';
-			creditCtx.fillText('Katsushika Hokusai • c. 1831 • public domain', cardX + 54, cardY + Math.round(cardH * 0.72));
+			creditCtx.fillText('Katsushika Hokusai • c. 1831 • public domain', 10, 40);
 
 			const creditLayer = {
 				id: 4,
@@ -660,12 +717,12 @@ class Photocraft_UI {
 				name: 'Credit',
 				type: 'image',
 				link: creditCanvas,
-				x: 0,
-				y: 0,
-				width: w,
-				height: h,
-				width_original: w,
-				height_original: h,
+				x: cardX + 44,
+				y: cardY + 185,
+				width: creditW,
+				height: creditH,
+				width_original: creditW,
+				height_original: creditH,
 				rotate: 0,
 				visible: true,
 				opacity: 100,

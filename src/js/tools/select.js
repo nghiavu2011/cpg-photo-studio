@@ -529,11 +529,26 @@ class Select_tool_class extends Base_tools_class {
 
 		var layers_sorted = this.Base_layers.get_sorted_layers();
 
-		//render main canvas
 		for (var i = 0; i < layers_sorted.length; i++) {
 			var value = layers_sorted[i];
-			var canvas = this.Base_layers.convert_layer_to_canvas(value.id, null, false);
+			if (value.type === 'adjustment' || value.visible === false) {
+				continue;
+			}
 
+			var mouse = this.get_mouse_info(e);
+			if (mouse.x < value.x || mouse.x > value.x + value.width ||
+				mouse.y < value.y || mouse.y > value.y + value.height) {
+				continue;
+			}
+
+			if (value.type === 'image' && (value.width * value.height > 5000000)) {
+				await app.State.do_action(
+					new app.Actions.Select_layer_action(value.id)
+				);
+				break;
+			}
+
+			var canvas = this.Base_layers.convert_layer_to_canvas(value.id, null, false);
 			if (this.check_hit_region(e, canvas.getContext("2d"), value) == true) {
 				await app.State.do_action(
 					new app.Actions.Select_layer_action(value.id)
@@ -546,26 +561,17 @@ class Select_tool_class extends Base_tools_class {
 	check_hit_region(e, ctx, layer) {
 		var mouse = this.get_mouse_info(e);
 
-		if(layer.type == 'image' && Math.abs(layer.width * layer.height / 1000000) > 5){
-			//too big to check using getImageData - use simple way
-			if (mouse.x > layer.x && mouse.x < layer.x + layer.width &&
-				mouse.y > layer.y && mouse.y < layer.y + layer.height) {
-				//hit
-				return true;
-			}
-
+		if (mouse.x < layer.x || mouse.x > layer.x + layer.width ||
+			mouse.y < layer.y || mouse.y > layer.y + layer.height) {
 			return false;
 		}
 
-		var data = ctx.getImageData(mouse.x, mouse.y, 1, 1).data;
-		var blank = [0, 0, 0, 0];
-		if (config.TRANSPARENCY == false) {
-			blank = [0, 0, 0, 0];
-		}
-
-		if (data[0] != blank[0] || data[1] != blank[1] || data[2] != blank[2]
-			|| data[3] != blank[3]) {
-			//hit
+		try {
+			var data = ctx.getImageData(mouse.x, mouse.y, 1, 1).data;
+			if (data[3] > 10) {
+				return true;
+			}
+		} catch (err) {
 			return true;
 		}
 
