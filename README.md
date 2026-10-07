@@ -1,60 +1,60 @@
-# miniPaint
+# CPG Photo Studio (Photoshop CC 2020 Edition)
 
-Online image editor lets you create and edit images using HTML5 technologies. No need to buy, download, install, or have outdated flash. No ads. Key features: layers, filters, open source Photoshop alternative.
+> **Bộ công cụ thiết kế & biên tập đồ họa trực tuyến chuyên nghiệp mang giao diện chuẩn Adobe Photoshop CC 2020 & PhotoCraft.**
+> Phát triển độc quyền cho hệ sinh thái **CPG**, tích hợp tính năng đóng dấu bản quyền Watermark 1-Click, xử lý 100% Client-side siêu tốc và bảo mật dữ liệu tuyệt đối.
 
-miniPaint operates directly in the browser. You can create images by pasting from the clipboard (ctrl+v) or uploading from the computer (_using menu or drag & drop_). Nothing will be sent to any server. Everything stays in your browser. 
+---
 
-## URL:
-**https://viliusle.github.io/miniPaint/**
+## 🌟 Tính Năng Nổi Bật
 
-## Preview:
-![miniPaint](https://raw.githubusercontent.com/viliusle/miniPaint/master/images/preview.gif)
-(generated using miniPaint)
+- **Chuẩn giao diện Adobe Photoshop CC 2020 & PhotoCraft:**
+  - 10 Menu chức năng chuẩn (File, Edit, Image, Layer, Type, Select, Filter, View, Window, Help).
+  - Thanh tùy chọn công cụ (Options Bar) đồng bộ theo từng công cụ active.
+  - Vùng làm việc Canvas trung tâm với thước đo Ruler và tab tài liệu đa nhiệm.
+  - Bảng Dock 2 tầng bên phải: Card trên (Properties / Đồ thị Curves chuyên sâu) & Card dưới (Layers / Channels / Paths).
+- **Hỗ trợ 2 Theme chuẩn Pro:**
+  - 🌙 **Pro Dark:** Giao diện tối chuyên nghiệp chống mỏi mắt khi làm việc ban đêm.
+  - ☀️ **Studio Light:** Giao diện xám sáng chuẩn Studio với nền Canvas xám trung tính 50% (`#b0b0b0`) cho độ chuẩn màu tối ưu.
+- **Tính năng độc quyền CPG:**
+  - ⭐ **Gắn Logo CPG 1-Click:** Tự động căn góc và đóng dấu watermark bản quyền sắc nét lên ảnh sản phẩm/phối cảnh.
+  - 🇻🇳 **Đa ngôn ngữ [ Tiếng Việt | English ]:** Chuyển đổi ngôn ngữ tức thì chỉ với 1 click.
+- **Bảo mật & Hiệu năng Zero-bloat:**
+  - 100% xử lý cục bộ trên RAM/Canvas của trình duyệt. Không tải ảnh lên bất kỳ máy chủ nào.
+  - Hỗ trợ chạy Offline hoàn toàn không cần Internet.
+  - Chạy mượt mà trên mọi thiết bị: PC, Laptop, MacBook, iPad, máy tính bảng.
 
-**Change log:** [/miniPaint/releases](https://github.com/viliusle/miniPaint/releases)
+---
 
-## Browser Support
-- Chrome
-- Firefox
-- Opera
-- Edge
-- Safari
-- Yandex
+## 🚀 Triển Khai Nhanh Trên Vercel
 
-## Features
+Dự án đã được cấu hình sẵn file `vercel.json` tối ưu cho việc deploy 1-click:
 
-**Files**: open images, directories, URLs, data URLs, drag and drop, save (PNG, JPG, BMP, WEBP, animated GIF, TIFF, JSON (layers data), print.
+1. Đăng nhập vào [Vercel](https://vercel.com).
+2. Bấm **Add New...** -> **Project**.
+3. Chọn repo `cpg-photo-studio` và bấm **Deploy**.
+4. Website sẽ tự động online tại tên miền `https://cpg-photo-studio.vercel.app` (hoặc gắn domain riêng `https://psd.cpg.vn`).
 
-**Edit**: undo, cut, copy, paste, selection, paste from the clipboard.
+---
 
-**Image**: information, EXIF, trim, zoom, resize (Hermite resample, default resize), rotate, flip, color corrections (brightness, contrast, hue, saturation, luminance), automatic color adjustment, grid, histogram, negative.
+## 💻 Chạy Cục Bộ (Local & Portable Desktop)
 
-**Layers**: multi-layer system, differences, merging, flattening, transparency support.
+### Cách 1: Chạy Desktop App 1-Click
+Click đúp chuột vào file:
+```
+CPG-Photo-Studio-App.bat
+```
+Ứng dụng sẽ tự động mở ở chế độ cửa sổ độc lập (**App Window mode**) không có thanh URL, mang lại trải nghiệm như phần mềm Photoshop cài trong máy.
 
-**Effects**: black and white, blur (box, gaussian, stack, zoom), bulge/pinch, denoise, desaturation, dither, dot screen, edge, emboss, enrich, gamma, grains, grayscale, heatmap, jpg compression, mosaic, oil, sepia, sharpen, solarize, tilt shift, vignette, vibrance, vintage, blueprint, night vision, pencil, also instagram filters: 1977, aden, clarendon, gingham, inkwell, lo-fi, toaster, valencia, x-pro ii.
+### Cách 2: Chạy Web Server phát triển
+```bash
+npm install
+npm run build
+python -m http.server 8088
+```
+Mở trình duyệt truy cập: `http://localhost:8088`
 
-**Tools**: pencil, brush, magic wand, eraser, fill, color picker, letter, crop, blur, sharpener, desaturation, clone, borders, sprites, keypoints, color zoom, change color, restore transparency, content fill. 
+---
 
-**Help**: keyboard shortcuts, translation.
-
-## Embed
-To embed this app on another page, use the following HTML code:
-
-    <iframe style="box-sizing:border-box; width:100%; height:100vh;" id="miniPaint" src="https://viliusle.github.io/miniPaint/" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-
-## Build instructions
-See [Wiki > Build instructions](https://github.com/viliusle/miniPaint/wiki/Build-instructions)
-
-## Wiki
-See [Wiki](https://github.com/viliusle/miniPaint/wiki)
-
-## Contributors
-<a align="center" href="https://github.com/viliusle/miniPaint/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=viliusle/miniPaint" />
-</a>
-
-## License
-MIT License
-
-## Support
-Please use the GitHub issues for support, feature requests and bug reports, or contact us by sending an email to www.viliusl@gmail.com.
+## 📜 Bản Quyền & Giấy Phép
+Phát triển trên nền tảng mã nguồn mở miniPaint & PhotoCraft UI. Phát hành theo giấy phép [MIT License](LICENSE).
+© 2026 CPG Photo Studio.
